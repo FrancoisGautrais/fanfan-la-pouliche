@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from src.fflp.fflp import settings
-
+from fflp import settings
+from website.views import html, images, tags, groups
 urlpatterns = [
     path('admin/', admin.site.urls),
-]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path("image/", include(images.urls)),
+    path("tag/", include(tags.urls)),
+    path("group/", include(groups.urls)),
+    path("", html.serve_main)
+]  #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

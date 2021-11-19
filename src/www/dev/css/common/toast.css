@@ -1,0 +1,53 @@
+.toast-host {
+    position: fixed;
+    width: 33%;
+    height: 100%;
+    right: 0px;
+    margin-top: 20px;
+    margin-right: 20px;
+    top: 0px;
+    z-index: 1000000;
+    pointer-events: none;
+}
+
+.toast-host > div {
+    margin-top: 10px;
+}
+
+.toast {
+    padding: 10px;
+    right: 5%;
+    width: 100%;
+    opacity: 2 ! important;
+    font-size: 12pt;
+    border-radius: 5px;
+}
+
+.toast:hover {
+    transform: scale(1.05);
+    transition: transform 100ms ease-in-out;
+    border: solid;
+}
+
+.toast > p {
+    margin-bottom: 0px;
+}
+
+.toast-info {
+    background-color: #445;
+    color: #DEF;
+}
+
+.toast-warning {
+    background-color: #aa6;
+    color: #DEF;
+}
+
+.toast-error {
+    background-color: #e30;
+    color: #DEF;
+}
+
+.toast code {
+    color: #fff;
+}

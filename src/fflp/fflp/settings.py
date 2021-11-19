@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 from django.conf import settings
@@ -17,7 +17,9 @@ from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_DIR = BASE_DIR.parent.parent
+WORKING_DIR = PROJECT_DIR / "data"
+TESTS_DIR = PROJECT_DIR / "tests"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -53,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -64,7 +66,7 @@ ROOT_URLCONF = 'fflp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,7 +88,7 @@ WSGI_APPLICATION = 'fflp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': WORKING_DIR / 'db.sqlite3',
     }
 }
 
@@ -115,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 TIME_ZONE = 'UTC'
 
@@ -136,6 +138,14 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT = (BASE_DIR / "website" / "static" ).as_posix()
+STATIC_ROOT = BASE_DIR / "static"
+WWW_DIR = (PROJECT_DIR / "src" / "www" / "prod" )
+STATICFILES_DIRS = [
+ WWW_DIR
+]
+IMAGE_DIR = WORKING_DIR / "images"
 
-IMAGE_DIR = BASE_DIR / "website" / "static" / "img"
+STATIC_ROOT.mkdir(parents=True, exist_ok=True)
+PROJECT_DIR.mkdir(parents=True, exist_ok=True)
+IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+

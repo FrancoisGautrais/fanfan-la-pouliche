@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr" xmlns:btn="http://www.w3.org/1999/html">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/static/css/third-party/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
+    <link href="/static/css/common/common.css" rel="stylesheet">
+    <link href="/static/css/common/toast.css" rel="stylesheet">
+    <link href="/static/css/common/modal.css" rel="stylesheet">
+
+</head>
+<body>
+    {% csrf_token %}
+    <form action="/image/add" method="POST" enctype='multipart/form-data' >
+         {{ form }}
+        <button type="submit">Valider</button>
+    </form>
+    <div class="container">
+        <div id="like_button_container"></div>
+    </div>
+    <div class="toast-host" id="app-toast-host">
+
+    </div>
+    <div class="modal-host" id="app-modal-host">
+
+    </div>
+
+
+    {% autoescape off %}
+     {{ include_script }}
+    {% endautoescape %}
+</body>
+</html>
