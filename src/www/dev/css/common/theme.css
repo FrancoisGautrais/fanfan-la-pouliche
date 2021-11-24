@@ -1,0 +1,32 @@
+
+:root {
+    --color-yes: #0f0;
+    --color-no: #f00;
+    --color-cancel: #00f;
+}
+
+
+.color-yes {
+    color: var(--color-yes);
+}
+
+.color-no {
+    color: var(--color-no);
+}
+
+.color-cancel {
+    color: var(--color-cancel);
+}
+
+.bg-color-yes {
+    background-color: var(--color-yes);
+}
+
+.bg-color-no {
+    background-color: var(--color-no);
+}
+
+.bg-color-cancel {
+    background-color: var(--color-cancel);
+}
+

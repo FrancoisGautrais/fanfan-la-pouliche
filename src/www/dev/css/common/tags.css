@@ -1,0 +1,58 @@
+.tree-tag {
+    list-style-type: none;
+    font-size: 14pt;
+}
+
+.tree-tag-node {
+}
+
+.tree-tag-leaf {
+}
+
+.tree-tag-label{
+    display: flex;
+}
+
+.tree-tag-action {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.tree-tag-action-remove {
+    color: #f00;
+}
+
+.tree-tag-action-edit {
+    color: #0f0;
+}
+
+.tree-tag-action-add {
+    color: #00f;
+}
+
+.tree-tag-arrow {
+    cursor: pointer;
+}
+
+.tag-select-multiple{
+    display: flex;
+    min-height: 32px;
+    position: relative;
+    flex: 1 1 auto;
+}
+
+.tag-select-multiple > .custom-select{
+    min-height: 32px;
+    max-height: 128px;
+    overflow: auto;
+
+}
+
+.tag-select-multiple > .material-icons {
+    font-size: 24pt;
+    padding-top: 2px;
+    margin-left: 5px;
+    border: solid 1px #ced4da;
+    border-radius: 2px;
+    cursor: pointer;
+}

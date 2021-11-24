@@ -1,84 +1,172 @@
+var Toast = module.load("js.react.component.ui.toast");
+var modal = module.load("js.react.component.ui.modal")
 
-module.load(".timer")
-module.load("js.app.model.api")
-function complete_wrapper(func){
+
+function _complete_wrapper(func){
     return function(data){
         if(func) func(data.loaded, data.total, data)
     }
 }
 
-function error_wrapper(func){
+function _error_wrapper(func){
     return function(data){
         if(func) func(data)
     }
 }
 
-class Api {
-    constructor(){
+function _json__http_error_wrapper(fct){
+    return function(data){
+        if(!fct){
 
+            Toast.error(data);
+        }
     }
-
-
-    image_create(form, complete=null, update=null, error=null) {
-        var formData = new FormData();
-        var self = this;
-        form.find("[name]").each(function(i,e){
-            var je=$(e)
-            var tag = e.tagName;
-            var type = je.attr("type")
-            var name = je.attr("name")
-            if(tag=="INPUT"){
-                if(type=="file")
-                    formData.append(name, e.files[0])
-                else
-                    formData.append(name, je.val())
+}
+const regex = /<body>(?<content>.*)<\/body>/gm;
+function _json_error_wrapper(fct, error_http, opts){
+    return function(data, x, y){
+        var is_http_error = false;
+        var json_data = null;
+        try{
+            json_data = JSON.parse(data.responseText);
+        }catch(e){
+            if(e instanceof SyntaxError){
+                is_http_error=true;
+            }else{
+                throw e;
             }
 
-        })
-
-
-        var request = new XMLHttpRequest();
-        request.addEventListener("loadend", complete_wrapper(complete))
-        request.addEventListener("error", error_wrapper(error))
-        request.addEventListener("abort", error_wrapper(null))
-        request.upload.onprogress=function(x){
-           if(update){
-                update(x.loaded, x.total, x)
-           }
         }
-        request.open("POST", "/image/add");
-        request.send(formData);
-        return request
-    }
+        if(is_http_error){
+            if(error_http){
+                if(typeof error_http === "function"){
+                    error_http(data);
+                }else if(error_http == "modal"){
+                    var text = data.responseText.replaceAll("\n", "");
+                    var content = regex.exec(text)
+                    modal.error("Erreur HTTP:<br>"+content[0]);
+                }else if(error_http == "toast"){
+                    var text = data.responseText.replaceAll("\n", "");
+                    var content = regex.exec(text)
+                    Toast.error("Erreur HTTP:<br>"+content[0]);
+                }else{
+                    throw "Parametre d'erreur http incomprehnsible"+error_http
+                }
 
-    image_create_x(form, complete=null, update=null, error=null) {
-        var formData = new FormData();
-        var self = this;
-        for(var key in form){
-            formData.append(key, form[key])
+            } else { // default handling
+                var text = data.responseText.replaceAll("\n", "");
+                var content = regex.exec(text)
+                modal.error_html("Erreur HTTP:<br>"+content[0]);
+            }
+        }else{
+            if(fct){
+                fct(json_data);
+            }else{
+                err="<br>Code: "+json_data.code+"<br>Message: "+json_data.message+"<br>Data:"+json_data.data;
+                modal.error_html("Erreur sur '"+opts.url+"' "+err);
+            }
         }
-
-        var request = new XMLHttpRequest();
-        request.addEventListener("loadend", complete_wrapper(complete))
-        request.addEventListener("error", error_wrapper(error))
-        request.addEventListener("abort", error_wrapper(null))
-        request.upload.onprogress=function(x){
-           if(update){
-                update(x.loaded, x.total, x)
-           }
-        }
-        request.open("POST", "/image/add");
-        request.send(formData);
-        return request
-    }
-
-    image_list(){
+        console.log("ERROR=", data, x, y)
 
     }
 }
 
+function _json_success_wrapper(fct, opts){
+    return function(data, x, y, z){
+        if(fct)fct(data.data);
+    }
+}
+
+function _json_to_urlencoded(data){
+    return Object.entries(data).map(e => e.join('=')).join('&');
+}
+
+class ApiBase {
+    constructor(){}
+
+    send_form_data(method, path, data, opts){
+        if(typeof opts === "function") opts={success: opts}
+        opts = Object.assign({
+            method: method,
+            headers: null,
+            success: null,
+            error: null,
+            abort: null,
+            update: null
+        }, opts)
+        var formData = new FormData();
+        var request = new XMLHttpRequest();
+        for(var key in data){
+            formData.append(key, data[key])
+        }
+        request.addEventListener("loadend", _complete_wrapper(opts.success))
+        request.addEventListener("error", _error_wrapper(opts.error))
+        request.addEventListener("abort", _error_wrapper(opts.abort?opts.abort:opts.error))
+        request.upload.onprogress=function(x){
+           if(opts.update){
+                opts.update(x.loaded, x.total, x)
+           }
+        }
+        request.open(method, path);
+        request.send(formData);
+
+        return request
+    }
+
+
+
+    _ajax(ajax, is_json){
+        ajax=Object.assign({
+            headers: {},
+            method: "GET"
+        },
+        ajax)
+        return $.ajax(ajax)
+    }
+
+    _ajx_url(url, opts, is_json){
+        opts.url=url;
+        return this._ajax(opts, is_json);
+    }
+
+    _json(method, url, data, opts){
+        var is_get = (method.toLowerCase()=="get");
+        if(typeof opts === 'function') opts={success: opts}
+        var def_args = {
+            method: method,
+            url: url+((is_get&&data)?("?"+_json_to_urlencoded(data)):""),
+            data: is_get?null:JSON.stringify(data),
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        }
+        opts.success=_json_success_wrapper(opts.success, def_args);
+        opts.error=_json_error_wrapper(opts.error, opts.error_http, def_args);
+        opts=Object.assign(def_args, opts)
+        print(opts)
+        return this._ajx_url(url, opts, true);
+    }
+
+    json_get(url, data={}, opts={}){
+        return this._json("GET", url, data, opts)
+    }
+    json_post(url, data={}, opts={}){
+        return this._json("POST", url, data, opts)
+    }
+    json_put(url, data={}, opts={}){
+        return this._json("PUT", url, data, opts)
+    }
+    json_delete(url, data={}, opts={}){
+        return this._json("DELETE", url, data, opts)
+    }
+
+
+}
 
 
 module.exports={
-    api: new Api()
-}
+    Api: ApiBase,
+    Request: Request
+};
+
+

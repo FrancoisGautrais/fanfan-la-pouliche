@@ -6,7 +6,7 @@
     margin-top: 20px;
     margin-right: 20px;
     top: 0px;
-    z-index: 1000000;
+    z-index: 10;
     pointer-events: none;
 }
 
@@ -21,6 +21,7 @@
     opacity: 2 ! important;
     font-size: 12pt;
     border-radius: 5px;
+    pointer-events: auto;
 }
 
 .toast:hover {

@@ -16,6 +16,7 @@
     z-index: inherit;
     padding: 10px;
     border-radius: 3px;
+    position: fixed;
 }
 
 .modal-size-s {
@@ -52,13 +53,12 @@
     bottom: 100%;
     width: 100%;
     border-top: solid #bbb 1px;
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .modal-action-bar .btn {
     margin-left: 2px;
     margin-right: 2px;
-    background-color: grey;
 }
 
 .modal-action-cancel {
@@ -68,4 +68,16 @@
 
 .modal-content {
     height:100%;
+    border: none !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+}
+
+.modal-dialog-title > h1 {
+
+}
+
+.modal-dialog-content > p {
+
 }

@@ -26,16 +26,22 @@ def list(request : HttpRequest):
     ])
 
 
+
+@route_handler(allowed=("GET"))
+def list_flat(request : HttpRequest):
+    return json_ok(Tag.list())
+
+
 @route_handler(allowed=("PUT", "POST"))
 def create(request : HttpRequest):
-    form = TagForm(request.POST)
-    return Tag.create(form).as_dict()
+    form = TagForm(json.loads(request.body))
+    return json_ok(Tag.create(form).as_dict())
 
 
 
 @route_handler(allowed=("GET"))
 def images(request : HttpRequest, uuid : str):
-    form = TagForm(request.POST)
+    form = TagForm(json.loads(request.body))
     try:
         tag = Tag.objects.get(uuid=uuid)
     except Tag.DoesNotExist as err:
@@ -49,25 +55,23 @@ def images(request : HttpRequest, uuid : str):
 
 @route_handler(allowed=("POST"))
 def edit(request : HttpRequest, uuid : str):
-    form = TagForm(request.POST)
+    form = TagForm(json.loads(request.body))
     try:
         tag = Tag.objects.get(uuid=uuid)
     except Tag.DoesNotExist as err:
         return responses.tag_not_found(uuid)
 
 
-    img = Image.objects.get(uuid=uuid)
     tag.edit(form)
     return json_ok(tag.as_dict())
 
 
 @route_handler(allowed=("GET"))
 def remove(request : HttpRequest, uuid : str):
-    form = TagForm(request.POST)
     try:
         tag = Tag.objects.get(uuid=uuid)
     except Tag.DoesNotExist as err:
-        return responses.tag_not_found(form.cleaned_data["uuid"])
+        return responses.tag_not_found(uuid)
 
     id, name = tag.uuid, tag.name
     tag.delete()
@@ -78,7 +82,10 @@ def remove(request : HttpRequest, uuid : str):
 urls = [
     path('', list),
     path('add', create),
+    path('list', list_flat),
+    path('enumerate', lambda x: json_ok(Tag.enumerate())),
     path('<str:uuid>/images', images),
     path('<str:uuid>/edit', edit),
+    path('<str:uuid>/', edit),
     path('<str:uuid>/remove', remove)
 ]

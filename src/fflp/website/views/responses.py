@@ -54,7 +54,7 @@ def json_not_allowed(request : HttpRequest, allowed=None):
 
 
 def _format_exc(exc):
-    return json.dumps(exc)
+    return json.dumps(str(exc))
 
 
 def json_exception(err : Exception):

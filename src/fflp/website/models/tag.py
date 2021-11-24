@@ -11,6 +11,7 @@ class Tag(models.Model):
     description = models.TextField()
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
+
     @property
     def path(self):
         path=[]
@@ -23,10 +24,11 @@ class Tag(models.Model):
     def as_dict(self, children=True):
 
         tmp = {
-            "id" : self.id,
+            "uuid" : self.uuid,
             "name" : self.name,
             "path" : self.path,
-            "parent" : self.parent.id if self.parent else None,
+            "description": self.description,
+            "parent" : self.parent.uuid if self.parent else None,
         }
 
         if children: tmp["children"] = [x.as_dict() for x in Tag.objects.filter(parent=self)]
@@ -39,6 +41,32 @@ class Tag(models.Model):
         ]
 
     @staticmethod
+    def list():
+        return [
+            {
+                "uuid": x.uuid,
+                "path": x.path,
+                "name": x.name,
+                "description": x.description,
+                "parent": x.parent.uuid if (x.parent) else None
+
+            } for x in Tag.objects.all()
+        ]
+
+    @staticmethod
+    def enumerate():
+        return {
+           x.uuid:  {
+                "uuid": x.uuid,
+                "path": x.path,
+                "name": x.name,
+                "description": x.description,
+                "parent": x.parent.uuid if (x.parent) else None
+
+            } for x in Tag.objects.all()
+        }
+
+    @staticmethod
     def create(form : TagForm):
         if not form.is_valid():
             raise ValidationError(form.errors)
@@ -48,7 +76,7 @@ class Tag(models.Model):
             "uuid":  get_id(32),
             "name": data["name"],
             "description": data["description"],
-            "parent" :  Tag.objects.get(uuid=data["parent"])
+            "parent" :  Tag.objects.get(uuid=data["parent"]) if data["parent"] else None
         })
 
     def edit(self, form : TagForm):
@@ -57,7 +85,7 @@ class Tag(models.Model):
         data = form.cleaned_data
         self.name = data["name"]
         self.description = data["description"]
-        self.parent =  Tag.objects.get(uuid=data["parent"])
+        self.parent =  Tag.objects.get(uuid=data["parent"]) if data["parent"] else None
         self.save()
 
 

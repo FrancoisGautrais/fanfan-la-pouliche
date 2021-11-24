@@ -91,6 +91,7 @@ urls = [
     path('', list),
     path('add', create),
     path('<str:uuid>/info', info),
+    path('<str:uuid>/', edit),
     path('<str:uuid>/edit', edit),
     path('<str:uuid>/remove', remove),
     path('<str:uuid>', get),

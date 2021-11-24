@@ -9,7 +9,10 @@
     <title>Document</title>
     <link href="/static/css/third-party/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
+    <link href="/static/css/common/theme.css" rel="stylesheet">
     <link href="/static/css/common/common.css" rel="stylesheet">
+    <link href="/static/css/common/select.css" rel="stylesheet">
+    <link href="/static/css/common/tags.css" rel="stylesheet">
     <link href="/static/css/common/toast.css" rel="stylesheet">
     <link href="/static/css/common/modal.css" rel="stylesheet">
 
@@ -21,14 +24,22 @@
         <button type="submit">Valider</button>
     </form>
     <div class="container">
-        <div id="like_button_container"></div>
+        <div id="root-test"></div>
+        <div id="root-test2"></div>
+        <div id="root-test3"></div>
     </div>
-    <div class="toast-host" id="app-toast-host">
+    <div id="app-toast-host">
 
     </div>
-    <div class="modal-host" id="app-modal-host">
+    <div id="app-modal-host">
 
     </div>
+
+
+
+    <script>
+        const DATA = {% autoescape off %}{{bootstrap_data}}{% endautoescape %};
+    </script>
 
 
     {% autoescape off %}

@@ -1,5 +1,5 @@
 'use strict';
-var utils = module.load("js.common.utils")
+var utils =  module.load("js.react.component.common.utils")
 
 var prop=null;
 class SimpleInput extends React.Component {
@@ -11,7 +11,7 @@ class SimpleInput extends React.Component {
         label: "",
         type: "text"
     }, props)
-    this.state = { value: "" };
+    this.state = { value: props.value?props.value:"" };
     this.onchangelistener= props.onChange?props.onChange:null;
     this.onchangevalidate= props.onValidate?props.onValidate:null;
   }
@@ -33,15 +33,21 @@ class SimpleInput extends React.Component {
   }
 
   render() {
+        var file_accept=this.props.accept?this.props.accept:""
+        var multiple=this.props.multiple?this.props.multiple:false;
        return (
-            <div className={this.attr.className+" input-group"}>
-              <label className="input-group-text" htmlFor={this.attr.id+".input"}>{this.attr.label}</label>
+            <div className={"input-group mb-2"+(this.attr.className?this.attr.className:"")}>
+              {this.props.type!="file"?
+                <label className="input-group-text" htmlFor={this.attr.id+".input"}>{this.attr.label}</label>:null}
               <input type={this.attr.type}
                     className="form-control"
                     placeholder={this.attr.placeholder}
                     name={this.attr.name}
                     onChange={this.onchange.bind(this)}
                     onKeyUp={this.onkeyup.bind(this)}
+                    accept={file_accept}
+                    multiple={multiple}
+                    value={(this.attr.type!="file")?this.state.value:undefined}
                     id={this.attr.id+".input"}/>
               {this.props.children}
             </div>
@@ -52,6 +58,7 @@ class SimpleInput extends React.Component {
 
 module.exports={
     SimpleFile: function(props){
+
         return (
             <SimpleInput
                 name={props.name}
@@ -59,6 +66,9 @@ module.exports={
                 label={props.label}
                 className={props.className}
                 onChange={props.onChange}
+                accept={props.accept?props.accept:".jpg,.jpeg"}
+                multiple={props.multiple?props.multiple:false}
+                value={props.props?props.props:null}
                 id={props.id}/>
         )
     },
