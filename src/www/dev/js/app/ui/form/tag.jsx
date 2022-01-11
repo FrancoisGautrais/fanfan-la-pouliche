@@ -7,31 +7,15 @@ var modal = module.load("js.react.component.ui.modal")
 var form_utils = module.load(".utils")
 
 
-class TagAddForm extends React.Component {
+class TagAddForm extends form_utils.Form {
     constructor(props){
-        super(props);
-        this.state = props.value?props.value:{};
-        this.onchangelistener= props.onChange?props.onChange:null;
-        this.onchangevalidate= props.onValidate?props.onValidate:null;
-        this.validator=props.validator?props.validator:form_utils.default_validator;
-        this.errors = {};
+        super(props, ["name"]);
     }
 
-
-    onsend(fct){
-        var errors = this.validator(this, this.state)
-        if(errors && Object.keys(errors).length){
-
-        }
-        else{
-            var self=this;
-            tags.create(this.state, function(e) {self.setState({do_update : true}); fct && fct(e) })
-        }
+    handle_send(fct){
+        tags.create(this.state, this._setState(fct))
     }
 
-    onchange(key, data, value){
-        this.setState({ [key] : value})
-    }
 
     render(){
         var btn = this.props.valide?<a className="btn btn-success" onClick={this.onsend.bind(this)}>Valider</a>:null;
@@ -163,4 +147,5 @@ ReactDOM.render(<TagManageForm />, $("#root-test3")[0])
 
 module.exports={
     TagAddForm: TagAddForm,
+    TagManageForm: TagManageForm
 }

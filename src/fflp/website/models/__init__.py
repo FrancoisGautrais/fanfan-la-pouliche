@@ -1,4 +1,4 @@
-from .image import Image
-from .tag import Tag
-from .group import Group
+from website.models.image import Image
+from website.models.tag import Tag
+from website.models.group import Group
 

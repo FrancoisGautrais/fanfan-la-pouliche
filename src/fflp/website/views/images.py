@@ -37,10 +37,15 @@ def create(request : HttpRequest):
     image = Image.new(form)
     return responses.image_desc(image)
 
-@route_handler(allowed=("GET",))
+@route_handler(allowed=("GET","POST", "DELETE"))
 def get(request : HttpRequest, uuid : str, size : str = Image.SIZE_M):
     try:
-        img = Image.objects.get(uuid=uuid)
+        if request.method=="GET":
+            img = Image.objects.get(uuid=uuid)
+        elif request.method=="POST":
+            return edit(request, uuid)
+        else:
+            return remove(request, uuid)
     except Image.DoesNotExist as err:
         return responses.image_not_found(uuid)
 
@@ -66,7 +71,7 @@ def edit(request : HttpRequest, uuid : str):
     img.save()
     return responses.image_desc(img)
 
-@route_handler(allowed=("POST",))
+@route_handler(allowed=("GET",))
 def info(request : HttpRequest, uuid : str):
     try:
         img = Image.objects.get(uuid=uuid)
@@ -91,7 +96,6 @@ urls = [
     path('', list),
     path('add', create),
     path('<str:uuid>/info', info),
-    path('<str:uuid>/', edit),
     path('<str:uuid>/edit', edit),
     path('<str:uuid>/remove', remove),
     path('<str:uuid>', get),

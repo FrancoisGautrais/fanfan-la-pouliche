@@ -80,7 +80,6 @@ class MultipleSelect extends React.Component {
         this.setState({selecteds : x})
         var out=[]
         Object.keys(this.state.selecteds).map((e,i)=>this.state.selecteds[e] && out.push(e));
-        print("Here", this.props.onChange, out)
         this.props.onChange && this.props.onChange(self, out)
     }
 

@@ -1,0 +1,101 @@
+
+
+.image-edit-fragment {
+    margin: 10px;
+    padding: 10px;
+    border: solid grey 1px;
+    border-radius: 5px;
+    display: flex;
+}
+
+.image-edit-fragment-img {
+    margin-right: 10px;
+    display: flex;
+}
+
+.image-edit-fragment-img > img {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.image-edit-fragment-form {
+    width: 100%;
+}
+
+.image-edit-fragment-action {
+    margin-left: 10px;
+    text-align: center;
+    display: flex;
+}
+
+.image-edit-fragment-action > span {
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+
+
+
+.image-item {
+    display: flex;
+    padding: 5px;
+    border: solid lightgrey 1px;
+    border-radius: 3px;
+    margin: 5px;
+}
+
+.image-item:hover{
+    transform: scale(1.10);
+    transition: transform 200ms ease-in-out;
+    border: solid grey 2px;
+}
+
+.image-item:hover .image-item-action{
+    display: block;
+}
+
+
+.image-item > img {
+    margin: auto;
+    cursor: pointer;
+}
+
+.image-item-action {
+    position: absolute;
+    border: solid lightgrey 1px;
+    border-radius: 5px;
+    color: grey;
+    cursor: pointer;
+}
+
+
+.image-item-action-delete {
+    right: 5px;
+    top: 5px;
+}
+
+.image-item-action-edit {
+    left: 5px;
+    top: 5px;
+}
+
+.image-item-action-download {
+    bottom: 5px;
+    right: 5px;
+    top: none;
+}
+
+.image-item > span:hover {
+    color: grey;
+    background-color: lightgrey;
+}
+
+.hide {
+  display: none;
+}
+
+.image-list {
+    display: grid;
+    grid: minmax(150px, min-content) / repeat(auto-fill, 150px);
+    margin: auto;
+}

@@ -114,7 +114,7 @@ class ModalBase extends React.Component {
             id: utils.new_id(),
             className: "",
             modal_type: "base",
-            modal_size: "s"
+            modal_size: props.size?props.size:"s"
         }, props)
         this.root = React.createRef();
         this.observer=null;
@@ -153,8 +153,12 @@ class ModalBase extends React.Component {
 
 function DialogModal(props){
     return (
-        <ModalBase className={props.className}>
-
+        <ModalBase className={"modal-dialog "+props.className} {...props.attrs}>
+            <div className="modal-dialog-title">
+                <h1>
+                    {props.title}
+                </h1>
+            </div>
             <div className="modal-content">
                 {props.children}
             </div>
@@ -218,11 +222,6 @@ class ButtonDialog extends React.Component {
         var content=this.props.children;
         if(this.props.content || this.props.title){
             content=(<div>
-                <div className="modal-dialog-title">
-                    <h1>
-                        {this.props.title?this.props.title:""}
-                    </h1>
-                </div>
                 <div className="modal-dialog-content">
                     <p>
                         {this.props.content?this.props.content:""}
@@ -235,7 +234,9 @@ class ButtonDialog extends React.Component {
 
         return (
             <DialogModal  actions={buttons}
-                            className={this.props.className}>
+                            className={this.props.className}
+                            title={this.props.title}
+                            attrs={this.props.attrs}>
                 {content}
             </DialogModal>
         )
@@ -252,7 +253,8 @@ function YesNoCancelDialog(props){
             title={props.title}
             content={props.content}
             id={utils.new_id()}
-            className={props.className}>
+            className={props.className}
+            attrs={props.attrs}>
             {props.children}
         </ButtonDialog>
     )
@@ -273,7 +275,8 @@ function OkCancelDialog(props){
             title={props.title}
             content={props.content}
             id={utils.new_id()}
-            className={props.className}>
+            className={props.className}
+            attrs={props.attrs}>
 
             {props.children}
         </ButtonDialog>
@@ -297,7 +300,8 @@ function WarningDialog(props){
             title={props.title}
             content={props.content}
             id={utils.new_id()}
-            className={"modal-dialog-"+props.level}>
+            className={"modal-dialog-"+props.level}
+            {...props.attrs}>
 
             {props.children}
         </ButtonDialog>

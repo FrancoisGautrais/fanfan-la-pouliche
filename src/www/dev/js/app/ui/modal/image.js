@@ -13,10 +13,52 @@ function SimpleImage(onsend){
     return (<shortcut.ModalForm {...attrs}/>)
 }
 
+function SimpleImageEdit(value, onsend){
+    var attrs = {
+        title: "Modifier une image",
+        form: image.SimpleImageEditForm,
+        onsend: function(data){
+            if(onsend) onsend(data);
+            return true;
+        },
+        value: value
+    }
+    return (<shortcut.ModalForm {...attrs}/>)
+}
 
 
-modal.modal(SimpleImage())
+window.SimpleImageEditModal=function(props){ return modal.modal(SimpleImageEdit(props))}
+
+function MultipleImage(onsend){
+    var attrs = {
+        title: "Ajouter des images",
+        form: image.MultipleImageForm,
+        modal: {
+            size: "l"
+        },
+        onsend: onsend
+    }
+    return (<shortcut.ModalForm {...attrs}/>)
+}
+
+function ImagesListModal(onsend){
+    var attrs = {
+        title: "Images",
+        form: image.ImageList,
+        modal: {
+            size: "l"
+        },
+        onsend: onsend
+    }
+    return (<shortcut.ModalForm {...attrs}/>)
+}
+
+
+
+//modal.modal(SimpleImage())
+modal.modal(ImagesListModal())
 
 module.exports={
-    SimpleImage: SimpleImage
+    SimpleImage: SimpleImage,
+    SimpleImageEdit: SimpleImageEdit
 }

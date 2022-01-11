@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 
 from PIL.TiffImagePlugin import IFDRational
 from django.db import models
-from .tag import Tag
+from website.models.tag import Tag
 from .group import Group
 from ..common import errors
 from ..common.errors import BadParameterException
@@ -62,6 +62,7 @@ def get_exif(img : PImage):
     return exifData
 
 class Image(models.Model):
+
     STATE_UNINITIALIZED : int = 0
     STATE_INITIALIZED : int = 1
 
@@ -71,7 +72,7 @@ class Image(models.Model):
     SIZE_L : str = "l"
     SIZE_ORIGINAL : str = "original"
     SIZES: dict[str, int] = {
-        SIZE_S : 64,
+        SIZE_S : 128,
         SIZE_M : 512,
         SIZE_L : 1080,
         SIZE_ORIGINAL : -1
@@ -92,7 +93,7 @@ class Image(models.Model):
     creation_date = models.DateTimeField()
 
     def set_tags(self, tags):
-        self.tags.relations.clear()
+        self.tags.clear()
         if isinstance(tags, (int, str)): tags = [tags]
         for tag in tags:
             if isinstance(tag, tuple):
@@ -100,16 +101,17 @@ class Image(models.Model):
                     if isinstance(t, int):
                         tagid = t
                         break
-                else:
-                    tagid = tag
-                try:
-                    tag = Tag.objects.get(id=tagid)
-                except Tag.DoesNotExist as err:
-                    raise errors.TagNotFound("Le tag '%s' est inconnu" % tagid, tagid, err)
+            else:
+                tagid = tag
+            try:
+                tag = Tag.objects.get(uuid=tagid)
                 self.tags.add(tag)
+            except Tag.DoesNotExist as err:
+                raise errors.TagNotFound("Le tag '%s' est inconnu" % tagid, tagid, err)
+
 
     def set_groups(self, groups):
-        self.groups.relations.clear()
+        self.groups.clear()
         if isinstance(groups, (int, str)): groups=[groups]
         for group in groups:
             if isinstance(group, tuple):
@@ -133,8 +135,8 @@ class Image(models.Model):
             "uuid" : self.uuid,
             "name" : self.name,
             "description" : self.description,
-            "tags" : [(t.id, t.name) for t in self.tags.all()],
-            "groups" : [(t.id, t.name) for t in self.groups.all()],
+            "tags" : [(t.uuid, t.name) for t in self.tags.all()],
+            "groups" : [(t.uuid, t.name) for t in self.groups.all()],
             "sizes" : self.sizes.split(","),
             "creation_date" : str(self.creation_date)
         }

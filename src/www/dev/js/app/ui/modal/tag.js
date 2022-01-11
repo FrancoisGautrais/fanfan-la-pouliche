@@ -24,6 +24,14 @@ function TagCreate(onsend){
 }
 
 
+function TagManage(attrs=null){
+    if(!attrs) attrs={}
+    return (<modal.OkCancelDialog title="Gestion des images" > <tag.TagManageForm  /> </modal.OkCancelDialog>)
+}
+
+
+modal.modal(TagManage())
+
 module.exports={
     TagEdit: TagEdit,
     TagCreate: TagCreate

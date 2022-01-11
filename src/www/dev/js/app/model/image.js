@@ -10,14 +10,19 @@ class _Images extends Api{
     }
 
     edit(form, handlers) {
-        return this.send_form_data("POST", "/image/"+form.uuid+"/", form, handlers)
+        return this.json_post("/image/"+form.uuid, form, handlers)
     }
 
     remove(uuid, handlers) {
-        return this.json_delete("/"+uuid, null, handlers)
+        return this.json_delete("/image/"+uuid, null, handlers)
     }
+
     info(uuid, handlers) {
-        return this.json_get("/"+uuid+"/info", null, handlers)
+        return this.json_get("/image/"+uuid+"/info", null, handlers)
+    }
+
+    list(handlers) {
+        return this.json_get("/image", null, handlers)
     }
 
 

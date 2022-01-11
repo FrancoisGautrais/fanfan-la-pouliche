@@ -71,7 +71,7 @@ module.exports = {
         $(root_id).append(root)
         var data = ReactDOM.render(elem, root[0]);
     },
-
+    Queue : module.load(".queue"),
     assign: assign,
 
     Stack: Stack,

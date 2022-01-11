@@ -24,8 +24,10 @@ class MetaForm extends React.Component{
             cancel: props.cancel?props.cancel:{},
             close: props.close?props.close:true,
             id: props.id?props.id:utils.new_id(),
-            form_attr: props.form_attr?props.form_attr:{}
+            form_attr: props.form_attr?props.form_attr:{},
+            value: props.value
         }
+
         //this.props.innerRef declared
     }
 
@@ -56,14 +58,17 @@ class MetaForm extends React.Component{
         return (
             <modal.OkCancelDialog id={this.attr.id}
                 title={this.attr.title}
-                yes={{label: this.attr.label,  click: this.onclick.bind(this)}}>
+                size={this.attr.size}
+                yes={{label: this.attr.label,
+                click: this.onclick.bind(this)}}
+                attrs={this.props.modal}>
                 <this.props.form value={this.attr.value} ref={this.form} {...this.attr.form_attr}/>
             </modal.OkCancelDialog>
         )
     }
 
     static show(data){
-        modal.modal(<MetaForm value={data}/>)
+        modal.modal(<MetaForm value={data} attrs={modal}/>)
     }
 }
 

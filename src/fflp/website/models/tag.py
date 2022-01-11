@@ -6,6 +6,7 @@ from ..forms.tag_form import TagForm
 
 
 class Tag(models.Model):
+
     uuid = models.CharField(max_length=64, primary_key=True)
     name = models.TextField()
     description = models.TextField()

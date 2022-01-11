@@ -24,5 +24,6 @@ urlpatterns = [
     path("image/", include(images.urls)),
     path("tag/", include(tags.urls)),
     path("group/", include(groups.urls)),
-    path("", html.serve_main)
+    path("", html.serve_main),
+    path("admin", html.serve_admin)
 ]  #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

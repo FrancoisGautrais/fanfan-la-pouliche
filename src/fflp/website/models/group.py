@@ -6,6 +6,7 @@ from ..forms.group_form import GroupForm
 
 class Group(models.Model):
 
+
     uuid = models.CharField(max_length=64)
     name = models.TextField()
     description = models.TextField()

@@ -40,5 +40,5 @@ function MultipleTagSelectInline(prop){
 
 module.exports={
     MultipleTagSelect: MultipleTagSelect,
-    MultipleTagSelectInline: MultipleTagSelectInline
+    MultipleTagSelectInline: MultipleTagSelectInline,
 }

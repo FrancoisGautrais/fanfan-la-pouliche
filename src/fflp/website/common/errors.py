@@ -11,6 +11,7 @@ class HttpCode:
     METHOD_NOT_ALLOWED = 405
     NOT_ACCEPTABLE = 406
 
+
 class FflpException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,3 +55,8 @@ class RecursiveReference(NotFoundException):
 class Exists(NotFoundException):
     HTTP_STATUS = 400
     CODE="resource exist"
+
+
+class ElementNotFoundException(NotFoundException):
+    HTTP_STATUS=404
+    CODE="template elment not found"

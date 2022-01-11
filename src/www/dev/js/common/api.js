@@ -4,7 +4,7 @@ var modal = module.load("js.react.component.ui.modal")
 
 function _complete_wrapper(func){
     return function(data){
-        if(func) func(data.loaded, data.total, data)
+        if(func) func(data.target.responseText)
     }
 }
 
