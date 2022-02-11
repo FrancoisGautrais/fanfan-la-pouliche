@@ -1,18 +1,7 @@
 from setuptools import setup, find_packages
-from pathlib import Path
 from install import do_preinstall, do_postinstall
+from install.utils import package_data
 
-def package_data(dir, relative_to=None):
-    array =  []
-    relative_to=Path(relative_to or Path(__file__).parent)
-    stack = [Path(dir)]
-    while stack:
-        for path in stack.pop(0).iterdir():
-            if path.is_file():
-                array.append(str(path.resolve().relative_to(relative_to)))
-            else:
-                stack.append(path)
-    return array
 
 install_requires = (
     "django",
