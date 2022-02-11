@@ -10,7 +10,7 @@ if len(sys.argv)>=2 and sys.argv[1]=="migrate":
     exit(0)
 
 install_requires = (
-    "django",
+    "Django",
     "pillow",
     "unidecode",
     "django-cors-headers"
