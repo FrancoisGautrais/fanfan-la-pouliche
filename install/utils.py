@@ -3,7 +3,7 @@ from pathlib import Path
 
 def package_data(dir, relative_to=None):
     array =  []
-    relative_to=Path(relative_to or Path(__file__).parent)
+    relative_to=Path(relative_to or Path(__file__).parent.parent)
     stack = [Path(dir)]
     while stack:
         for path in stack.pop(0).iterdir():
