@@ -16,6 +16,7 @@ setup(
     name='fanfan-la-pouliche',
     version='0.1.0',
     packages=[''],
+    install_requires =install_requires,
     url='',
     license='GPL v3',
     author='fanch',

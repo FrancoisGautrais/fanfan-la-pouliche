@@ -1,6 +1,4 @@
-from attr import attr
 
-from .utils import attr
 from ..pagebuilder import register, PageElement
 from ...models import Tag, Image
 
