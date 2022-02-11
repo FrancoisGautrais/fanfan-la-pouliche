@@ -1,3 +1,0 @@
-
-
-NPM_PATH=None
