@@ -1,7 +1,13 @@
+import os
+
 from setuptools import setup, find_packages
 from install import do_preinstall, do_postinstall
 from install.utils import package_data
+import sys
 
+if len(sys.argv)>=2 and sys.argv[1]=="migrate":
+    do_postinstall()
+    exit(0)
 
 install_requires = (
     "django",
@@ -35,4 +41,4 @@ setup(
     }
 )
 
-do_postinstall()
+os.system(f"{sys.executable} {__file__} migrate")
