@@ -16,3 +16,4 @@ if not NPM:
 
 print("installation des dépendances NPM")
 os.system("npm install")
+os.chdir(dir)
