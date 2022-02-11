@@ -35,7 +35,7 @@ setup(
     install_requires =install_requires,
     url='',
     packages=find_packages('src'),
-    tests_requires= tests_requires,
+    tests_require= tests_requires,
     package_dir={'': 'src'},
     license='GPL v3',
     author='fanch',

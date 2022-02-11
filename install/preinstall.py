@@ -1,16 +1,18 @@
 import os
 from pathlib import Path
-NPM=None
+from install import common
+
+
 dir = os.getcwd()
 os.chdir(Path(__file__).parent)
 
 for path in os.environ.get("PATH", "").split(":"):
     path = Path(path)
     if (path / "npm").exists():
-        NPM=path / "npm"
+        common.NPM_PATH=path / "npm"
         break
 
-if not NPM:
+if not common.NPM_PATH:
     print("npm n'est pas installé et requis")
     exit(-1)
 
