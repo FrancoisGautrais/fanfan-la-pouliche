@@ -72,6 +72,7 @@ class _Module {
                 return curr.exports;
             }
             if(curr.exports[attr]==undefined){
+                null.x.y=1;
                 throw new ImportException(as_str);
             }
             curr=curr.exports[attr];

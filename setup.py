@@ -2,7 +2,8 @@ from setuptools import setup
 
 install_requires = (
     "django",
-    "pillow"
+    "pillow",
+    "unidecode"
 )
 
 tests_requires = (

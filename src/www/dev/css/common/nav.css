@@ -1,0 +1,17 @@
+
+.nav-bar {
+    background-color: red;
+}
+
+.nav-bar-root {
+    padding-bottom: 5px;
+}
+
+.nav-bar-item {
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 14pt;
+}

@@ -17,32 +17,26 @@
     padding: 10px;
     border-radius: 3px;
     position: fixed;
+    height: 80%;
+
 }
 
 .modal-size-s {
     width: 30%;
     max-width: 30%;
     left: 35%;
-    height: auto;
-    max-height: 80%;
-    top: 10%;
 
 }
 .modal-size-m {
     width: 50%;
     max-width: 50%;
     left: 25%;
-    height: auto;
-    max-height: 80%;
-    top: 10%;
+    height: 80%;
 }
 .modal-size-l {
     width: 75%;
     max-width: 75%;
     left: 12.5%;
-    height: auto;
-    max-height: 80%;
-    top: 10%;
 }
 
 .modal-background {
@@ -53,7 +47,6 @@
     left: 0px;
     display: block;
     position: fixed;
-
 }
 
 
@@ -62,8 +55,8 @@
     width: 100%;
     border-top: solid #bbb 1px;
     padding-top: 10px;
-    position: sticky;
-    bottom: 0px;
+    position: absolute;
+    bottom: 5px;
 }
 
 .modal-action-bar .btn {
@@ -84,8 +77,14 @@
     margin-right: 5px;
     position: relative;
     overflow: auto;
+    height: auto;
+    max-height: calc(100% - 90px);
 }
 
+.modal-title-btn {
+    position: absolute;
+    right: 0px;
+}
 
 .modal-dialog {
     overflow: hidden;
@@ -97,6 +96,11 @@
     border-bottom: solid #bbb 1px;
     position: sticky;
     top: 0px;
+    display: flex;
+}
+
+.modal-dialog-title > h1 {
+    width: 80%;
 }
 
 .modal-dialog-title > h1{

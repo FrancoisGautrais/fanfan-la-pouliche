@@ -58,6 +58,7 @@ class MetaForm extends React.Component{
         return (
             <modal.OkCancelDialog id={this.attr.id}
                 title={this.attr.title}
+                title_btn={this.attr.title_btn}
                 size={this.attr.size}
                 yes={{label: this.attr.label,
                 click: this.onclick.bind(this)}}

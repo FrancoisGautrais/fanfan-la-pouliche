@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+import unidecode
 
 from website.common import errors
 
@@ -573,7 +574,12 @@ class PageElement:
         self._content= content
         self._page = page
         for f in self.FIELDS:
-            setattr(self, f, self._content[f] if f in self._content else None)
+            val=None
+            if f in self._content:
+                val =  unidecode.unidecode(self._content[f].lower()) if f=="label" else self._content[f]
+
+            setattr(self, f, val)
+
 
     @staticmethod
     def instanciate(content, page):
@@ -583,7 +589,9 @@ class PageElement:
         raise errors.ElementNotFoundException("Type de section '%s' introuvable" % type)
 
     def get_data(self):
-        raise NotImplementedError()
+        return {
+            k: getattr(self, k) for k in self.FIELDS
+        }
 
     def generate(self):
         return self.TEMPLATE % self.get_data()
@@ -617,7 +625,7 @@ CONTENT={
         },
         {
             "type" : "Title",
-            "label" : "Home",
+            "label" : "Accueil",
             "images" : [
                 {
                     "title" : "Premier titre",
@@ -633,9 +641,15 @@ CONTENT={
         },
         {
             "type" : "Gallery",
-            "label" : "gallerie",
+            "label" : "Gallerie",
             "titre" : "Gallerie",
             "introduction" : "Venez découvrir les clichés de Fanfan la pouliche !"
+
+        },
+        {
+            "type" : "Contact",
+            "label" : "Contact",
+            "texte": "..."
 
         }
     ],

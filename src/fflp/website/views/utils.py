@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from website.common.errors import FflpException
 from website.views.responses import json_not_allowed, json_exception
 
-THRW_EXCEPTION = False
+THRW_EXCEPTION = True
 def route_handler(*args, **kwargs):
     ALLOWED=None
     if "allowed" in kwargs:

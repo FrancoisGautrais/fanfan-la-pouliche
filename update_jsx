@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -rf src/www/prod/page/js/
+mkdir -p src/www/prod/page/js/ignore 2> /dev/null || true
+cp -r src/www/dev/page/js/ignore/* src/www/prod/page/js
+npx babel -D  --watch src/www/dev --out-dir src/www/prod --presests react-app/prod --ignore src/www/dev/page/js/ignore

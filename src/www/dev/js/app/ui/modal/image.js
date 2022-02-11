@@ -27,7 +27,7 @@ function SimpleImageEdit(value, onsend){
 }
 
 
-window.SimpleImageEditModal=function(props){ return modal.modal(SimpleImageEdit(props))}
+window.SimpleImageEditModal=function(props, onsend){ return modal.modal(SimpleImageEdit(props, onsend))}
 
 function MultipleImage(onsend){
     var attrs = {
@@ -42,23 +42,26 @@ function MultipleImage(onsend){
 }
 
 function ImagesListModal(onsend){
+
     var attrs = {
         title: "Images",
         form: image.ImageList,
         modal: {
             size: "l"
         },
-        onsend: onsend
+        onsend: onsend,
+
     }
     return (<shortcut.ModalForm {...attrs}/>)
 }
 
 
 
-//modal.modal(SimpleImage())
+modal.modal(SimpleImage())
 modal.modal(ImagesListModal())
 
 module.exports={
     SimpleImage: SimpleImage,
-    SimpleImageEdit: SimpleImageEdit
+    SimpleImageEdit: SimpleImageEdit,
+    ImagesListModal : ImagesListModal
 }

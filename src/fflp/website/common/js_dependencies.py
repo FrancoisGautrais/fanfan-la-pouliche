@@ -14,8 +14,8 @@ class Node:
     REGEX_MODULE_REGISTER=re.compile(r"Module\.register")
     EXCULDE_MODULE =  Path("/js/third-party/")
 
-    def __init__(self, root_dir, path, context=None):
-        self.is_module = False
+    def __init__(self, root_dir, path, context=None, is_module=False):
+        self.is_module = is_module
         self.root_dir = root_dir
         self.context = context if context is not None else root_dir
         self.relpath = (path if isinstance(path, Path) else Path(path))
@@ -99,7 +99,7 @@ class JsDpendencies:
     def __init__(self, root_dir, path):
         self.path = path if isinstance(path, Path) else Path(path)
         self.root_dir = root_dir
-        self.root = Node(root_dir, path)
+        self.root = Node(root_dir, path, is_module=True)
 
     def prepend(self, data):
         self.root.prepend(data)

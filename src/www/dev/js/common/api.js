@@ -62,7 +62,7 @@ function _json_error_wrapper(fct, error_http, opts){
             if(fct){
                 fct(json_data);
             }else{
-                err="<br>Code: "+json_data.code+"<br>Message: "+json_data.message+"<br>Data:"+json_data.data;
+                var err="<br>Code: "+json_data.code+"<br>Message: "+json_data.message+"<br>Data:"+json_data.data;
                 modal.error_html("Erreur sur '"+opts.url+"' "+err);
             }
         }

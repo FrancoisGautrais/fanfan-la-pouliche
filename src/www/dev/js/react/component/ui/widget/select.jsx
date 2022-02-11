@@ -80,6 +80,7 @@ class MultipleSelect extends React.Component {
         this.setState({selecteds : x})
         var out=[]
         Object.keys(this.state.selecteds).map((e,i)=>this.state.selecteds[e] && out.push(e));
+        print("changed : ", out)
         this.props.onChange && this.props.onChange(self, out)
     }
 
@@ -172,7 +173,7 @@ var options = {
     "Var1": "ok3"
 }
 window.test=React.createRef();
-ReactDOM.render( <MultipleSelect options={options} ref={window.test}/>, $("#root-test")[0])
+//ReactDOM.render( <MultipleSelect options={options} ref={window.test}/>, $("#root-test")[0])
 
 module.exports={
     Select: Select,

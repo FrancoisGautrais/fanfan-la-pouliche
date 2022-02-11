@@ -92,8 +92,10 @@ class Image(models.Model):
     sizes = models.TextField(default=SIZES_STR)
     creation_date = models.DateTimeField()
 
+
     def set_tags(self, tags):
         self.tags.clear()
+
         if isinstance(tags, (int, str)): tags = [tags]
         for tag in tags:
             if isinstance(tag, tuple):
@@ -117,7 +119,7 @@ class Image(models.Model):
             if isinstance(group, tuple):
                 for t in group:
                     if isinstance(t, int):
-                        tagid=t
+                        groupid=t
                         break
                 else:
                     groupid = group
@@ -218,6 +220,13 @@ class Image(models.Model):
             "creation_date" : date
         }
         image =  Image.objects.create(**args)
+        if "tags" in data:
+            for tagid in data["tags"]:
+                try:
+                    tag = Tag.objects.get(uuid=tagid)
+                    image.tags.add(tag)
+                except Tag.DoesNotExist as err:
+                    raise errors.TagNotFound("Le tag '%s' est inconnu" % tagid, tagid, err)
         image._initialize(form)
         return image
 

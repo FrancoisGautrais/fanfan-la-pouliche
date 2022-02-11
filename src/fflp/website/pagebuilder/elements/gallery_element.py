@@ -20,9 +20,7 @@ class HeaderElement(PageElement):
 					<div class="work-filter wow fadeInRight animated" data-wow-duration="500ms">
 						<ul class="text-center">
 							<li><a href="javascript:;" data-filter="all" class="active filter">All</a></li>
-							<li><a href="javascript:;" data-filter=".photography" class="filter">Photography</a></li>
-							<li><a href="javascript:;" data-filter=".web" class="filter">web</a></li>
-							<li><a href="javascript:;" data-filter=".logo-design" class="filter">logo design</a></li>
+							%(tags_header)s
 						</ul>
 					</div>
 					
@@ -35,8 +33,10 @@ class HeaderElement(PageElement):
 		
 		</section>"""
 
+
     def _figure(self, x):
-        return f"""<figure class="mix work-item">
+        tags = " ".join([f"tag-{tag.uuid[:6]}" for tag in x.tags.all()])
+        return f"""<figure class="mix work-item {tags}">
 					<img src="/image/{x.uuid}/m" alt="">
 					<figcaption class="overlay">
 						<a class="fancybox" rel="works" title="{x.name}" href="/image/{x.uuid}/original"><i class="fa fa-eye fa-lg"></i></a>
@@ -46,16 +46,27 @@ class HeaderElement(PageElement):
 					</figcaption>
 				</figure>"""
 
-
+    def _tag_header(self, id, name):
+        return  f'<li><a href="javascript:;" data-filter=".tag-{id}" class="filter">{name}</a></li>'
 
     def get_data(self):
-        tags = [ Tag.objects.get(name="public")]
-        images = Image.objects.filter(tags__in=tags)[:8]
-        
+        try:
+            tags = [ Tag.objects.get(name="public")]
+        except Tag.DoesNotExist:
+            tags = None
+        all_tags = {}
+        images = Image.objects.filter(tags__in=tags)[:8] if tags else []
+        for img in images:
+            for tag in img.tags.all():
+                id = tag.uuid[:6]
+                if id not in all_tags and tag.name!="public":
+                    all_tags[id]=tag.name
+
         print("images=", images)
         return {
             "label": self.label,
             "content" : "\n".join([ self._figure(x) for x in images]),
+            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items()]),
             "introduction" : self.introduction,
             "titre" : self.titre
         }

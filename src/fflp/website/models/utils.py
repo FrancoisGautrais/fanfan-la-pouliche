@@ -1,5 +1,5 @@
 import random
-CHARACTERS = "abcdefghijklmnopqrsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_0123456789"
+CHARACTERS = "abcdefghijklmnopqrsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 
 def get_id(l):

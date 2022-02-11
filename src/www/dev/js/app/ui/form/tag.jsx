@@ -142,8 +142,8 @@ class TagManageForm extends React.Component {
     }
 }
 
-ReactDOM.render(<TagAddForm valide={true}/>, $("#root-test2")[0])
-ReactDOM.render(<TagManageForm />, $("#root-test3")[0])
+//ReactDOM.render(<TagAddForm valide={true}/>, $("#root-test2")[0])
+//ReactDOM.render(<TagManageForm />, $("#root-test3")[0])
 
 module.exports={
     TagAddForm: TagAddForm,

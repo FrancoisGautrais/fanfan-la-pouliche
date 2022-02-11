@@ -30,9 +30,10 @@ function TagManage(attrs=null){
 }
 
 
-modal.modal(TagManage())
+//modal.modal(TagManage())
 
 module.exports={
     TagEdit: TagEdit,
-    TagCreate: TagCreate
+    TagCreate: TagCreate,
+    TagManage : TagManage
 }

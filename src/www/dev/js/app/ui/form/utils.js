@@ -29,13 +29,11 @@ class Form extends React.Component {
     }
 
     validate(){
-        print("validate state",this.state, this)
         return this.validator(this, this.state)
     }
 
     onchange(key, data, value){
-        print("-> onchange",key, value)
-        print("-> state",this.state, this)
+        print("key:", key," value:", value)
         this.setState({ [key] : value})
     }
 
@@ -69,6 +67,7 @@ class Form extends React.Component {
             this.handle_errors(this.errors);
         }
         else{
+            print("onsend=", fct)
             this.handle_send(fct);
         }
     }

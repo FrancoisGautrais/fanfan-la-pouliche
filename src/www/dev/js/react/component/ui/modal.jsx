@@ -152,17 +152,20 @@ class ModalBase extends React.Component {
 
 
 function DialogModal(props){
+    var title_btn = props.title_btn?props.title_btn:null;
+
     return (
         <ModalBase className={"modal-dialog "+props.className} {...props.attrs}>
             <div className="modal-dialog-title">
                 <h1>
                     {props.title}
                 </h1>
+
             </div>
             <div className="modal-content">
                 {props.children}
             </div>
-            <div className="modal-action-bar">
+            <div className="modal-action-bar ">
                 {props.actions}
             </div>
         </ModalBase>
@@ -189,6 +192,11 @@ class ButtonDialog extends React.Component {
                     label: "Annuler",
                     click: e => true,
                     className: "btn bg-color-cancel modal-action-cancel"
+                },
+                action: {
+                    label: "Ajouter",
+                    click: e=> true,
+                    className: "btn bg-color-yes modal-action-yes"
                 }
             }
         }, props)
@@ -273,6 +281,7 @@ function OkCancelDialog(props){
         <ButtonDialog
             buttons={data}
             title={props.title}
+            title_btn={props.title_btn}
             content={props.content}
             id={utils.new_id()}
             className={props.className}

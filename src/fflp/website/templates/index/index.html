@@ -16,25 +16,27 @@
     <link href="/static/css/common/image.css" rel="stylesheet">
     <link href="/static/css/common/toast.css" rel="stylesheet">
     <link href="/static/css/common/modal.css" rel="stylesheet">
+    <link href="/static/css/common/page.css" rel="stylesheet">
+    <link href="/static/css/common/nav.css" rel="stylesheet">
+    <link href="/static/css/app/nav.css" rel="stylesheet">
 
 </head>
 <body>
     {% csrf_token %}
-    <form action="/image/add" method="POST" enctype='multipart/form-data' >
-         {{ form }}
-        <button type="submit">Valider</button>
-    </form>
+    <nav class="nav-bar">
+        <ul class="nav-bar-root">
+            <li class="nav-bar-item" onclick="show('images')">Image</li>
+            <li class="nav-bar-item" onclick="show('tags')">Tags</li>
+            <li class="nav-bar-item" onclick="show('add_image')">Ajoute une image</li>
+            <li class="nav-bar-item" onclick="show('add_images')">Ajoute des images</li>
+        </ul>
+    </nav>
+
     <div class="container">
-        <div id="root-test"></div>
-        <div id="root-test2"></div>
-        <div id="root-test3"></div>
+        <div id="root"></div>
     </div>
-    <div id="app-toast-host">
-
-    </div>
-    <div id="app-modal-host">
-
-    </div>
+    <div id="app-toast-host"></div>
+    <div id="app-modal-host"></div>
 
 
 

@@ -1,4 +1,6 @@
 from ..pagebuilder import register, PageElement
+import unidecode
+
 
 
 @register("Header")
@@ -35,7 +37,7 @@ class HeaderElement(PageElement):
         name = x["label"]
         print(f"i={i}")
         classe='classe="current"' if i==1 else ""
-        id = name.lower()
+        id = unidecode.unidecode(name.lower())
         return f'<li><a href="#{id}" {classe}>{name}</a></li>\n'
 
     def get_data(self):

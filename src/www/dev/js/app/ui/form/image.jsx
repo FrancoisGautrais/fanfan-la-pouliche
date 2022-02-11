@@ -14,9 +14,14 @@ class SimpleImageForm extends form_utils.Form {
         super(props, (props.value && props.value.uuid)?[]:["file"] );
     }
 
+    onedit(fct, data){
+        return fct?fct(data):null
+    }
+
     handle_send(fct){
         if(this.state.uuid){
-            ImageApi.edit(this.state, fct)
+            ImageApi.edit(this.state, this.onedit.bind(this,fct))
+
         }else{
             ImageApi.create(this.state, fct)
         }
@@ -24,6 +29,13 @@ class SimpleImageForm extends form_utils.Form {
 
     render(){
         var btn = this.props.valide?<a className="btn btn-success" onClick={this.onsend.bind(this)}>Valider</a>:null;
+        var tags = [];
+        if(this.state.tags){
+            for(var i in  this.state.tags){
+                tags.push(this.state.tags[i][0]);
+            }
+        }
+
         return (
             <form className="container">
                 <SimpleInput name="name" label="Nom" placeholder="Nom"
@@ -33,7 +45,7 @@ class SimpleImageForm extends form_utils.Form {
                         onChange={this.onchange.bind(this, "description")}  value={this.state.description} error={this.errors.description}/>
 
                 <MultipleTagSelectInline name="tags"  onChange={this.onchange.bind(this, "tags")}
-                                value={this.state.tags}/>
+                                value={tags}/>
 
                 {(this.props.value&&this.props.value.uuid)?null:
                     <SimpleFile name="file" label="Fichier" placeholder="Fichier" onChange={this.onchange.bind(this, "file")}
@@ -221,12 +233,8 @@ class ImageItem extends React.Component {
     }
 
     edit(data, fct){
-        this.setState({value: data});
-        ImageApi.edit(this.state.value, fct)
-    }
-
-    remove(fct){
-        ImageApi.remove(this.state.value.uuid, fct)
+        Object.assign(this.state.value, data)
+        this.setState({});
     }
 
     url(size="xs"){
@@ -246,7 +254,7 @@ class ImageItem extends React.Component {
     }
 
     onedit(evt){
-        var img_form=SimpleImageEditModal(this.state.value)
+        var img_form=SimpleImageEditModal(this.state.value, this.edit.bind(this))
 
     }
 
@@ -255,7 +263,8 @@ class ImageItem extends React.Component {
         modal.confirm("Supprimer ?", "Voulez-vous vraiment supprimer l'image '"+this.state.value.name
             +"' ("+this.state.value.uuid+") définitivement ?", function(x){
                 ImageApi.remove(self.state.value.uuid, function(){
-                    alert("ici")
+                    self.state.value.deleted=true;
+                    self.props.parent.notify_remove(self.state.value);
                     if(self.props.onremove){
                         self.props.onremove(self);
                     }
@@ -298,7 +307,10 @@ class ImageList extends React.Component {
     constructor(props){
         super(props);
         var self = this;
-        this.state={images: props.images}
+        this.state={
+            images: props.images,
+            selection: []
+        }
         if(!this.state.images){
             ImageApi.list(function(data){
                 self.setState({images: data});
@@ -307,11 +319,23 @@ class ImageList extends React.Component {
 
     }
 
+    notify_remove(uuid){
+        var n_images=[];
+        for(var i in this.state.images){
+            var img = this.state.images[i];
+            if(uuid!=img){
+                n_images.push(img)
+            }
+        }
+        this.setState({})
+    }
+
     render(){
         var imgs = []
         for(var i in this.state.images){
-            imgs.push(<ImageItem value={this.state.images[i]} key={"image-item."+i}/>)
+            if(!this.state.images[i].deleted)imgs.push(<ImageItem value={this.state.images[i]} key={"image-item."+i} parent={this}/>)
         }
+
         return (
             <div className="image-list">
                 {imgs}
