@@ -14,16 +14,16 @@ if Page.get_page("/") is None:
 
 public=list(Tag.objects.filter(name="public"))
 if not public:
-    Tag.objects.create()
+    Tag.objects.create(name="public", description="Affiche en miniature", editable=False)
 else:
-    public[0].editable=False;
+    public[0].editable=False
     public[0].save()
 
 
 accueil=list(Tag.objects.filter(name="accueil"))
 if not accueil:
-    Tag.objects.create()
+    Tag.objects.create(name="accueil", description="À afficher sur la une de la page d'accueil", editable=False)
 else:
-    accueil[0].editable=False;
+    accueil[0].editable=False
     accueil[0].save()
 
