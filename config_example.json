@@ -1,0 +1,10 @@
+{
+  "mail" : {
+    "username" : "address",
+    "smtp" : "smptserver:port",
+    "password" : "password",
+    "contacts" : [
+      "x@gmial.com"
+    ]
+  }
+}

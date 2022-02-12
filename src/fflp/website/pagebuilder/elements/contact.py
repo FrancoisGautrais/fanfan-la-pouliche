@@ -28,37 +28,36 @@ class HeaderElement(PageElement):
                     </div>
                 </div> -->
 
-                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
                     <div class="contact-form">
                         <h3>Votre message</h3>
                         <form action="#" id="contact-form">
                             <div class="input-group name-email">
                                 <div class="input-field">
-                                    <input type="text" name="name" id="name" placeholder="Name" class="form-control">
+                                    <input type="text" name="name" id="contact-name" placeholder="Name" class="form-control">
                                 </div>
                                 <div class="input-field">
-                                    <input type="email" name="email" id="email" placeholder="Email" class="form-control">
+                                    <input type="email" name="email" id="contact-email" placeholder="Email" class="form-control">
                                 </div>
                             </div>
                             <div class="input-group">
-                                <textarea name="message" id="message" placeholder="Message" class="form-control"></textarea>
+                                <textarea name="message" id="contact-message" placeholder="Message" class="form-control"></textarea>
                             </div>
                             <div class="input-group">
-                                <input type="submit" id="form-submit" class="pull-right" value="Envoyer !">
+                                <a onclick="send_mail()" class="pull-right">Envoyer !</a>
                             </div>
                         </form>
                     </div>
                 </div>
 
 
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 wow fadeInRight animated" data-wow-duration="500ms" data-wow-delay="600ms">
+                <!--<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 wow fadeInRight animated" data-wow-duration="500ms" data-wow-delay="600ms">
                     <ul class="footer-social">
-                        <li><a href="https://www.behance.net/Themefisher"><i class="fa fa-behance fa-2x"></i></a></li>
                         <li><a href="https://www.twitter.com/Themefisher"><i class="fa fa-twitter fa-2x"></i></a></li>
                         <li><a href="https://dribbble.com/themefisher"><i class="fa fa-dribbble fa-2x"></i></a></li>
                         <li><a href="https://www.facebook.com/Themefisher"><i class="fa fa-facebook fa-2x"></i></a></li>
                     </ul>
-                </div>
+                </div>-->
 
                 
             </div>

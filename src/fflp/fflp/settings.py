@@ -153,7 +153,9 @@ STATICFILES_DIRS = [
 ]
 IMAGE_DIR = WORKING_DIR / "images"
 
+
+
+
 STATIC_ROOT.mkdir(parents=True, exist_ok=True)
 PROJECT_DIR.mkdir(parents=True, exist_ok=True)
 IMAGE_DIR.mkdir(parents=True, exist_ok=True)
-

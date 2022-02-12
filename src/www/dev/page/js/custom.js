@@ -9,6 +9,7 @@ jQuery(window).load(function(){
 });
 
 
+
 $(document).ready(function(){
 
 	/* ========================================================================= */
@@ -113,6 +114,30 @@ $(document).ready(function(){
             scrollTop: 0
         }, 1500, "easeInOutExpo")
     });
+
+
+
+
 	
 });
 
+function send_mail(){
+    var data = {
+        name : $("#contact-name").val(),
+        email : $("#contact-email").val(),
+        message : $("#contact-message").val(),
+    }
+    console.log(data)
+    $.ajax({
+      type: "POST",
+      url: "/contact",
+      data: JSON.stringify(data),
+      success: function(ret){
+        alert("OK "+ret.code)
+      },
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      dataType: "json"
+    });
+}
