@@ -220,13 +220,13 @@ class Image(models.Model):
             "creation_date" : date
         }
         image =  Image.objects.create(**args)
-        if "tags" in data:
-            for tagid in data["tags"]:
-                try:
-                    tag = Tag.objects.get(uuid=tagid)
-                    image.tags.add(tag)
-                except Tag.DoesNotExist as err:
-                    raise errors.TagNotFound("Le tag '%s' est inconnu" % tagid, tagid, err)
+        tags = data.get("tags") or []
+        for tagid in tags:
+            try:
+                tag = Tag.objects.get(uuid=tagid)
+                image.tags.add(tag)
+            except Tag.DoesNotExist as err:
+                raise errors.TagNotFound("Le tag '%s' est inconnu" % tagid, tagid, err)
         image._initialize(form)
         return image
 
