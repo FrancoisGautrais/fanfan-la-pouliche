@@ -26,7 +26,6 @@ class Node:
         self.dependencies=[]
         self.path_from_root="/"+self.path.relative_to(self.root_dir).as_posix()
         self.module_path = os.path.normpath(self.path)[len(self.root_dir.as_posix())+1:-3].replace('/',".")
-        print(self.module_path)
         if self.EXCULDE_MODULE.as_posix() not in self.path.as_posix():
             self._find_depenenceies()
 
