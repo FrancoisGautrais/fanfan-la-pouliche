@@ -9,4 +9,6 @@ pip install -U pip
 pip install .
 
 python install/postinstall.py
+cd src/fflp
 
+python init.py

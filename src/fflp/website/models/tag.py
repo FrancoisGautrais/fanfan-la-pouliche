@@ -11,6 +11,7 @@ class Tag(models.Model):
     name = models.TextField()
     description = models.TextField()
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    editable = models.BooleanField(default=True)
 
 
     @property
@@ -30,6 +31,7 @@ class Tag(models.Model):
             "path" : self.path,
             "description": self.description,
             "parent" : self.parent.uuid if self.parent else None,
+            "editable" : self.editable
         }
 
         if children: tmp["children"] = [x.as_dict() for x in Tag.objects.filter(parent=self)]
@@ -49,7 +51,8 @@ class Tag(models.Model):
                 "path": x.path,
                 "name": x.name,
                 "description": x.description,
-                "parent": x.parent.uuid if (x.parent) else None
+                "parent": x.parent.uuid if (x.parent) else None,
+                "editable" : x.editable
 
             } for x in Tag.objects.all()
         ]
@@ -62,7 +65,8 @@ class Tag(models.Model):
                 "path": x.path,
                 "name": x.name,
                 "description": x.description,
-                "parent": x.parent.uuid if (x.parent) else None
+                "parent": x.parent.uuid if (x.parent) else None,
+                "editable" : x.editable
 
             } for x in Tag.objects.all()
         }

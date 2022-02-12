@@ -1,8 +1,5 @@
-import os, sys
-from pathlib import Path
 import os
 from pathlib import Path
-
 
 dir = os.getcwd()
 os.chdir(Path(__file__).parent)
@@ -25,4 +22,3 @@ os.chdir(dir)
 os.system(f"bash update_jsx one_shot")
 os.chdir("src/fflp")
 os.system("python manage.py migrate")
-os.system("python manage.py runserver")

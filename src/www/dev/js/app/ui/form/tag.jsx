@@ -97,7 +97,8 @@ class TagManageForm extends React.Component {
     render_node(node){
         var children = []
         for(var i in node.children){
-            children.push(this.render_node(node.children[i]))
+            if(node.children[i].editable)
+                children.push(this.render_node(node.children[i]))
         }
 
         children=children.length?<ul>{children}</ul>:null
@@ -105,6 +106,8 @@ class TagManageForm extends React.Component {
 
         var arrow=isopen?<span className="material-icons tree-tag-arrow" onClick={this.unfold.bind(this, node)}>keyboard_arrow_down</span>
                         :<span className="material-icons tree-tag-arrow"  onClick={this.fold.bind(this, node)}>keyboard_arrow_right</span>;
+
+        print("node",node, node.editable)
         return (
                 <li
                     key={node.path+" "+node.uuid}
