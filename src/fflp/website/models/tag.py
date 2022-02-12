@@ -84,6 +84,14 @@ class Tag(models.Model):
             "parent" :  Tag.objects.get(uuid=data["parent"]) if data["parent"] else None
         })
 
+    @staticmethod
+    def create_non_editable(**kwargs):
+        return Tag.objects.create(
+            uuid=get_id(32),
+            editable=False,
+            **kwargs
+        )
+
     def edit(self, form : TagForm):
         if not form.is_valid():
             raise ValidationError(form.errors)
