@@ -21,7 +21,6 @@ class SimpleImageForm extends form_utils.Form {
     handle_send(fct){
         if(this.state.uuid){
             ImageApi.edit(this.state, this.onedit.bind(this,fct))
-
         }else{
             ImageApi.create(this.state, fct)
         }
@@ -330,6 +329,22 @@ class ImageList extends React.Component {
         this.setState({})
     }
 
+    on_images_add(a, b ,d, e, f){
+        var data = JSON.parse(a);
+        this.state.images.push(data.data);
+        this.setState({})
+    }
+
+
+
+    add_image(){
+        modal.modal(SimpleImage(this.on_images_add.bind(this)))
+    }
+
+    add_images(){
+        modal.modal(MultipleImage(this.on_images_add.bind(this)))
+    }
+
     render(){
         var imgs = []
         for(var i in this.state.images){
@@ -337,9 +352,14 @@ class ImageList extends React.Component {
         }
 
         return (
-            <div className="image-list">
-                {imgs}
+            <div className="image-list-root">
+                <a className="btn" onClick={this.add_image.bind(this)}>Ajouter une image</a>
+                <a className="btn" onClick={this.add_images.bind(this)}>Ajouter des images</a>
+                <div className="image-list">
+                    {imgs}
+                </div>
             </div>
+
         )
     }
 }

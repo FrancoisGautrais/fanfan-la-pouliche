@@ -565,6 +565,11 @@ def register(key):
     return wrapper
 
 
+_CHARS=["abcdefghijklmnopqrstuvxyz-_123456789"]
+def to_html_id(x):
+    x = unidecode.unidecode(x.lower())
+    return "".join(c for c in x if c in _CHARS )
+
 
 class PageElement:
     ELEMENTS={}
@@ -576,7 +581,7 @@ class PageElement:
         for f in self.FIELDS:
             val=None
             if f in self._content:
-                val =  unidecode.unidecode(self._content[f].lower()) if f=="label" else self._content[f]
+                val = to_html_id(self._content[f]) if f=="label" else self._content[f]
 
             setattr(self, f, val)
 
@@ -638,6 +643,12 @@ CONTENT={
                     "image" : "static/page/img/banner.jpg"
                 }
             ]
+        },
+        {
+            "type" : "Presentation",
+            "label" : "Qui sommes-nous ?",
+            "texte": "Nous sommes nous..."
+
         },
         {
             "type" : "Gallery",

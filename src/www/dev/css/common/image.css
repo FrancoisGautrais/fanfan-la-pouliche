@@ -34,7 +34,9 @@
     cursor: pointer;
 }
 
-
+.image-list {
+    margin-top: 10px;
+}
 
 .image-item {
     display: flex;

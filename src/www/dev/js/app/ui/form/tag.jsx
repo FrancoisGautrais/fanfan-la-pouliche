@@ -107,7 +107,6 @@ class TagManageForm extends React.Component {
         var arrow=isopen?<span className="material-icons tree-tag-arrow" onClick={this.unfold.bind(this, node)}>keyboard_arrow_down</span>
                         :<span className="material-icons tree-tag-arrow"  onClick={this.fold.bind(this, node)}>keyboard_arrow_right</span>;
 
-        print("node",node, node.editable)
         return (
                 <li
                     key={node.path+" "+node.uuid}

@@ -57,11 +57,15 @@ function ImagesListModal(onsend){
 
 
 
-modal.modal(SimpleImage())
-modal.modal(ImagesListModal())
+//modal.modal(SimpleImage())
+//modal.modal(MultipleImage())
+//modal.modal(ImagesListModal())
+window.SimpleImage = SimpleImage;
+window.MultipleImage = MultipleImage;
 
 module.exports={
     SimpleImage: SimpleImage,
     SimpleImageEdit: SimpleImageEdit,
-    ImagesListModal : ImagesListModal
+    ImagesListModal : ImagesListModal,
+    MultipleImage : MultipleImage
 }

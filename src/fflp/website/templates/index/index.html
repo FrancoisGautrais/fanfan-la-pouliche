@@ -23,18 +23,8 @@
 </head>
 <body>
     {% csrf_token %}
-    <nav class="nav-bar">
-        <ul class="nav-bar-root">
-            <li class="nav-bar-item" onclick="show('images')">Image</li>
-            <li class="nav-bar-item" onclick="show('tags')">Tags</li>
-            <li class="nav-bar-item" onclick="show('add_image')">Ajoute une image</li>
-            <li class="nav-bar-item" onclick="show('add_images')">Ajoute des images</li>
-        </ul>
-    </nav>
 
-    <div class="container">
-        <div id="root"></div>
-    </div>
+    <div id="root"></div>
     <div id="app-toast-host"></div>
     <div id="app-modal-host"></div>
 

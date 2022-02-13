@@ -33,7 +33,6 @@ class Form extends React.Component {
     }
 
     onchange(key, data, value){
-        print("key:", key," value:", value)
         this.setState({ [key] : value})
     }
 
@@ -48,8 +47,6 @@ class Form extends React.Component {
     }
 
     handle_errors(errors){
-
-        print("Error:", errors, this.state)
         for(var i in errors){
             print(i, errors[i])
         }
@@ -67,7 +64,6 @@ class Form extends React.Component {
             this.handle_errors(this.errors);
         }
         else{
-            print("onsend=", fct)
             this.handle_send(fct);
         }
     }
