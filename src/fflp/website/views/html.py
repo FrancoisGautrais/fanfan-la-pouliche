@@ -1,5 +1,5 @@
 import json
-
+from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
@@ -9,7 +9,7 @@ from website.common.js_dependencies import JsDpendencies
 from ..forms.image_form import UploaderForm
 from ..models import Tag, Group
 from ..pagebuilder.pagebuilder import PageBuilder
-
+from website.models.stats import Stat
 
 @route_handler(allowed=("GET",))
 def serve_admin(request : HttpRequest):
@@ -29,4 +29,7 @@ def serve_admin(request : HttpRequest):
 @route_handler(allowed=("GET",))
 def serve_main(request : HttpRequest):
     pb = PageBuilder.from_url("/")
+    if request.session.session_key is None:
+        request.session.save()
+    Stat.from_request(request)
     return HttpResponse(pb.generate())
