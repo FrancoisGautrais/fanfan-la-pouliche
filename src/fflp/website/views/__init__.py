@@ -3,3 +3,4 @@ from . import html
 from . import groups
 from . import tags
 from . import contact
+from . import auth

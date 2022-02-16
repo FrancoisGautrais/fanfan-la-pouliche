@@ -50,6 +50,9 @@ $(document).ready(function(){
 	$(window).resize(function(){'use strict',
 		$('.elt-slider, .carousel.slide, .carousel-inner, .carousel-inner .item').css('height',slideHeight);
 	});
+	var children = $("#nav > li > a");
+	children.each((i, e) => $(e).removeClass("current"))
+	children.first().addClass("current")
 	
 	
 	/* ========================================================================= */
@@ -115,7 +118,7 @@ $(document).ready(function(){
         }, 1500, "easeInOutExpo")
     });
 
-
+    viewer.init();
 
 
 	
@@ -140,4 +143,16 @@ function send_mail(){
       },
       dataType: "json"
     });
+}
+
+function show_image(id){
+    var elem = $('<a class="image fancy-image" href="/image/'+id+'/l">LA</a>')
+    $("body").append(elem)
+    $(".fancy-image").fancybox({
+		'transitionIn'	:	'elastic',
+		'transitionOut'	:	'elastic',
+		'speedIn'		:	600,
+		'speedOut'		:	200,
+		'overlayShow'	:	true
+	});
 }

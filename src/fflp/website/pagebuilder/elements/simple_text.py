@@ -1,11 +1,11 @@
 from website.pagebuilder.pagebuilder import PageElement, register
 
 
-@register("Presentation")
+@register("Text")
 class HeaderElement(PageElement):
     FIELDS = ["label", "texte"]
     TEMPLATE = f"""
-    <section id="%(label)s" class="contact">
+    <section id="%(label)s" class="section-texte">
         <div class="container">
             <div class="row mb50">
             

@@ -1,0 +1,11 @@
+Priorité haute:
+- Faire un logo
+- Revoir le CSS de la page d'admin
+- Fixer le bouton invisible de contact
+- Page de mention légale
+- Section d'utilsiation des photos
+
+Priorité basse:
+- Améliorer l'installation et le déploiment
+    -> Externaliser le système de de React
+- Permettre et automatiser la sauvegarde de BDD et des images

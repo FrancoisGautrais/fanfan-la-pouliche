@@ -11,7 +11,7 @@ from ..models import Tag, Group
 from ..pagebuilder.pagebuilder import PageBuilder
 from website.models.stats import Stat
 
-@route_handler(allowed=("GET",))
+@route_handler(allowed=("GET",), redirect="/login")
 def serve_admin(request : HttpRequest):
     dep = JsDpendencies(settings.WWW_DIR, "js/index.js")
     data={
@@ -25,11 +25,15 @@ def serve_admin(request : HttpRequest):
     })
 
 
+@route_handler(allowed=("GET",), logged=False)
+def serve_login(request : HttpRequest):
+    return render(request=request, template_name="index/login.html")
 
-@route_handler(allowed=("GET",))
+@route_handler(allowed=("GET",), logged=False)
 def serve_main(request : HttpRequest):
     pb = PageBuilder.from_url("/")
     if request.session.session_key is None:
         request.session.save()
     Stat.from_request(request)
     return HttpResponse(pb.generate())
+

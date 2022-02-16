@@ -13,7 +13,7 @@ from . import responses
 from .responses import json_ok
 from ..common import errors
 from ..forms.image_form import UploaderForm
-from .utils import route_handler
+from .utils import route_handler, check_auth
 
 
 @route_handler(allowed=("GET", "POST"))
@@ -37,23 +37,27 @@ def create(request : HttpRequest):
     image = Image.new(form)
     return responses.image_desc(image)
 
-@route_handler(allowed=("GET","POST", "DELETE"))
+@route_handler(allowed=("GET","POST", "DELETE"), logged=False)
 def get(request : HttpRequest, uuid : str, size : str = Image.SIZE_M):
     try:
         if request.method=="GET":
             img = Image.objects.get(uuid=uuid)
         elif request.method=="POST":
+            check_auth(request)
             return edit(request, uuid)
         else:
+            check_auth(request)
             return remove(request, uuid)
     except Image.DoesNotExist as err:
         return responses.image_not_found(uuid)
 
+    if size == Image.SIZE_ORIGINAL:
+        check_auth(request)
     path : Path = img.get_image_path(size)
     if not path.is_file():
         return responses.file_not_found(path)
     name = img.name if img.name else img.uuid
-    return responses.image(path, name)
+    return responses.image(path, name, request.GET.get("download", "false")=="true")
 
 
 @route_handler(allowed=("POST",))
@@ -78,8 +82,6 @@ def info(request : HttpRequest, uuid : str):
     except Image.DoesNotExist as err:
         return responses.image_not_found(uuid)
     return responses.image_desc(img, True)
-
-
 
 @route_handler(allowed=("DELETE",))
 def remove(request : HttpRequest, uuid : str):

@@ -1,0 +1,40 @@
+
+<!doctype html>
+<html lang="fr" xmlns:btn="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/static/css/third-party/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
+    <link href="/static/css/common/theme.css" rel="stylesheet">
+    <link href="/static/css/common/common.css" rel="stylesheet">
+    <link href="/static/css/common/select.css" rel="stylesheet">
+    <link href="/static/css/common/tags.css" rel="stylesheet">
+    <link href="/static/css/common/image.css" rel="stylesheet">
+    <link href="/static/css/common/toast.css" rel="stylesheet">
+    <link href="/static/css/common/forms.css" rel="stylesheet">
+    <link href="/static/css/common/modal.css" rel="stylesheet">
+
+</head>
+<body>
+    {% csrf_token %}
+    <div class="card card-login" id="login-card">
+      <div class="card-body">
+        <h5 class="card-title">Fanfan la pouliche</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Connexion</h6>
+        <p class="card-text">Merci de vous conncter afin d'accéder à l'interface.</p>
+        <form action="auth/login{{redirect}}" method="POST">
+            <input type="text" name="username" placeholder="Nom d'utilisateur">
+            <input type="password" name="password" placeholder="Mot de pass">
+            <button type="submit">Valider</button>
+        </form>
+        <center>
+          <a class="btn btn-login fond-color-3 color-4" onclick="Login.connect()">Se connecter</a>
+        </center>
+      </div>
+    </div>
+</body>
+</html>

@@ -7,7 +7,6 @@ from pathlib import Path
 
 import pkg_resources  # part of setuptools
 
-
 DEFAULT_PORT = "localhost:8000"
 DEFAULT_RELOAD = False
 DEFAULT_SETTINGS_FILE = "fflp.settings"
@@ -24,11 +23,19 @@ settings_file = EMPTY
 command = EMPTY
 pidfile = EMPTY
 
-confgis_file = [
+config_files = [
     "/etc/flp-server/config.json",
     ".local/share/flp-server/config.json",
+    "config/config.json",
     "config.json",
 ]
+
+default_auth_file = {
+    "/etc/flp-server/auth.csv",
+    ".local/share/flp-server/auth.csv",
+    "config/auth.csv",
+    "auth.csv",
+}
 
 def get_pid():
     if not pidfile.is_file():
@@ -74,6 +81,8 @@ def stop():
     else:
         print("No instance running")
 
+
+
 configs = []
 config_file_key = "config.file"
 args = [x for x in sys.argv[1:]]
@@ -85,7 +94,7 @@ while args:
     elif current in ("--reload", "-r"):
         reload=True
     elif current in ("--config-file", "-c"):
-        confgis_file.append(args.pop(0))
+        config_files.append(args.pop(0))
     elif current in ("--config-key", "-k"):
         configs.append((args.pop(0), args.pop(0)))
     elif current in ("--settings-file", "-s"):
@@ -109,12 +118,13 @@ from django.apps import apps
 apps.populate(djset.INSTALLED_APPS)
 from django.core.management import call_command
 from website.models.config import config
+from django.contrib.auth.models import User
 
 for k, v in configs:
     config.set(k, v)
 
 
-for cfg in confgis_file:
+for cfg in config_files:
     p = Path(cfg)
     if p.is_file():
         try:
@@ -125,6 +135,23 @@ for cfg in confgis_file:
             print(f"unable to read config at {p} malformed file : {err}")
     else:
         print(f"unable to read config at {p} not such file")
+
+for auth in default_auth_file:
+    p = Path(auth)
+    if p.is_file():
+        for line in [ x.split(";") for x in p.read_text().split("\n") if x and ";" in x]:
+            if len(line)<2: continue
+            user = line[0]
+            password = line[1]
+            email = line[2] if len(line)>2 else None
+            try:
+                usr = User.objects.get(username=user)
+            except User.DoesNotExist:
+                User.objects.create_user(user, email, password)
+                print(f"Adding user '{user}'")
+    else:
+        print(f"unable to read auth file at {p} not such file")
+
 
 port = port if port!=EMPTY else config.get("server.address", DEFAULT_PORT)
 reload = reload if reload!=EMPTY else config.get("server.reload", DEFAULT_RELOAD)

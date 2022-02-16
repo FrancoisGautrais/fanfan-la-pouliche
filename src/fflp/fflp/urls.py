@@ -18,14 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 
 from fflp import settings
-from website.views import html, images, tags, groups, contact
+from website.views import html, images, tags, groups, contact, auth
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("image/", include(images.urls)),
     path("tag/", include(tags.urls)),
     path("group/", include(groups.urls)),
     path("", html.serve_main),
+    path("login", html.serve_login),
     path("admin", html.serve_admin),
     path("page", html.serve_admin),
     path("contact", contact.contact),
+    path("auth/", include(auth.urls)),
 ]  #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

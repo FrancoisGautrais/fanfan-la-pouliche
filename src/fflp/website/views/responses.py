@@ -51,6 +51,10 @@ def json_not_allowed(request : HttpRequest, allowed=None):
     if allowed: msg+=" (autorisée : %s)" % str(allowed)
     return json_response(None, HTTP_ERROR, msg, HttpCode.METHOD_NOT_ALLOWED)
 
+def json_unauthorized():
+    msg = "Nécessite une authentification"
+    return json_response(None, HTTP_ERROR, msg, HttpCode.UNAUTHORIZED)
+
 
 
 def _format_exc(exc):
@@ -66,11 +70,12 @@ def json_exception(err : Exception):
 def exception(err : Exception):
     return json_exception(err)
 
-def image(path, name):
+def image(path, name, download=False):
     with open(path, "rb") as f:
         data = f.read()
     resp = HttpResponse(data, content_type="image/jpeg")
-    resp['Content-Disposition'] = 'attachment; filename="%s.jpg"' % name
+    if download:
+        resp['Content-Disposition'] = 'attachment; filename="%s.jpg"' % name
     return resp
 
 

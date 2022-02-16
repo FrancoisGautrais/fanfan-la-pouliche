@@ -21,7 +21,7 @@ class HeaderElement(PageElement):
 					</a>
                 </div>
 
-                <nav class="collapse navbar-collapse navbar-right" role="navigation">
+                <nav class="collapse navbar-collapse navbar-right">
                     <ul id="nav" class="nav navbar-nav">
                         %(elements)s
                     </ul>
@@ -35,9 +35,9 @@ class HeaderElement(PageElement):
         if "label" not in x:
             return ""
         name = x["label"]
-        print(f"i={i}")
-        classe='classe="current"' if i==1 else ""
+        classe='class="current"' if i==0 else ""
         id =to_html_id(name)
+        print(f'{i} : <li><a href=#{id}" {classe}>{name}</a></li>')
         return f'<li><a href="#{id}" {classe}>{name}</a></li>\n'
 
     def get_data(self):

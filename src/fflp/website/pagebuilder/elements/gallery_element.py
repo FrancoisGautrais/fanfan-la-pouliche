@@ -1,3 +1,5 @@
+import json
+
 from ..pagebuilder import register, PageElement
 from ...models import Image, Tag
 
@@ -30,17 +32,19 @@ class HeaderElement(PageElement):
 			<div class="project-wrapper">
 			    %(content)s
 			</div>
+			
+			<script>var IMAGES = %(images)s</script>
 		
 		</section>"""
 
 
     def _figure(self, x):
         tags = " ".join([f"tag-{tag.uuid[:6]}" for tag in x.tags.all()])
-        return f"""<figure class="mix work-item {tags}">
+        return f"""<figure class="mix work-item {tags} tile-image" data-image-id="{x.uuid}">
 					<img src="/image/{x.uuid}/m" alt="">
 					<figcaption class="overlay">
-						<a class="fancybox" rel="works" title="{x.name}" href="/image/{x.uuid}/original"><i class="fa fa-eye fa-lg"></i></a>
-						<a class="fancybox" rel="works" title="{x.name}" href="/image/{x.uuid}/original"><i class="fa fa-download fa-lg"></i></a>
+						<a class="preview-btn" title="{x.name}" onclick="viewer.show('{x.uuid}')"><i class="fa fa-eye fa-lg"></i></a>
+						<a title="{x.name}" href="/image/{x.uuid}/l?download=true"><i class="fa fa-download fa-lg"></i></a>
 						<h4>{x.description}</h4>
 						<p>Fanfan la Pouliche</p>
 					</figcaption>
@@ -56,6 +60,7 @@ class HeaderElement(PageElement):
             tags = None
         all_tags = {}
         images = Image.objects.filter(tags__in=tags)[:8] if tags else []
+        images_data = json.dumps({ img.uuid : img.as_dict() for img in images})
         for img in images:
             for tag in img.tags.all():
                 id = tag.uuid[:6]
@@ -68,5 +73,7 @@ class HeaderElement(PageElement):
             "content" : "\n".join([ self._figure(x) for x in images]),
             "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items()]),
             "introduction" : self.introduction,
-            "titre" : self.titre
+            "titre" : self.titre,
+            "images" : images_data,
+
         }

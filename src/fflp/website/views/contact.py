@@ -7,7 +7,7 @@ from website.models.config import config
 from website.views.utils import route_handler
 
 
-@route_handler(allowed=("PUT", "POST"))
+@route_handler(allowed=("PUT", "POST"), logged=False)
 def contact(request : HttpRequest):
     data = request.POST or json.loads(request.body)
     for contact in config.get("mail.contacts"):
