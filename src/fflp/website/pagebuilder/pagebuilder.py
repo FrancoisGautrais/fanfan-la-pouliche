@@ -23,6 +23,7 @@ TEMPLATE="""<!DOCTYPE html>
         <link rel="stylesheet" href="static/page/css/animate.css">
         <link rel="stylesheet" href="static/page/css/main.css">
         <link rel="stylesheet" href="static/page/css/media-queries.css">
+        <link rel="stylesheet" href="static/page/css/common.css">
         <script src="static/page/js/modernizr-2.6.2.min.js"></script>
 
     </head>

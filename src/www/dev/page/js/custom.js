@@ -123,6 +123,12 @@ $(document).ready(function(){
 
 	
 });
+const regex = /^\w+@\w+(\.\w+)+$/gm;
+
+function mail_ok(){
+    $("#mail-error").hide()
+    $("#mail-ok").show();
+}
 
 function send_mail(){
     var data = {
@@ -130,19 +136,40 @@ function send_mail(){
         email : $("#contact-email").val(),
         message : $("#contact-message").val(),
     }
-    console.log(data)
-    $.ajax({
-      type: "POST",
-      url: "/contact",
-      data: JSON.stringify(data),
-      success: function(ret){
-        alert("OK "+ret.code)
-      },
-      headers: {
-        "Content-Type" : "application/json"
-      },
-      dataType: "json"
-    });
+    var errors = []
+    if(data.name.length<2){
+        errors.push("Le nom est incorrecte")
+    }
+    if(regex.exec(data.email)==null){
+        errors.push("L'adresse email est incorrecte ")
+    }
+    if(data.message.length<1){
+        errors.push("Le message est incorrect")
+    }
+    if(errors.length){
+        var text='<ul>';
+        for(var i =0; i< errors.length; i++) text+='<li>'+errors[i]+'</li>'
+        text+='</ul>'
+        var elem = $("#mail-error")
+        elem.empty()
+        elem.append($(text))
+        elem.show()
+        $("#mail-ok").hide()
+        return
+    }
+    else{
+        console.log(data)
+        $.ajax({
+          type: "POST",
+          url: "/contact",
+          data: JSON.stringify(data),
+          success: mail_ok,
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          dataType: "json"
+        });
+    }
 }
 
 function show_image(id){
@@ -156,3 +183,4 @@ function show_image(id){
 		'overlayShow'	:	true
 	});
 }
+

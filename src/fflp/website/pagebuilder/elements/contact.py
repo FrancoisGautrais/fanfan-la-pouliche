@@ -27,10 +27,21 @@ class HeaderElement(PageElement):
                         <p>(541) 1234 567</p>
                     </div>
                 </div> -->
+                
+                
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
+                    
+                    
                     <div class="contact-form">
                         <h3>Votre message</h3>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 notif" id="mail-ok">
+                            Votre message a bien été envoyé !
+                        </div>
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 notif" id="mail-error">
+                            
+                        </div>
                         <form action="#" id="contact-form">
                             <div class="input-group name-email">
                                 <div class="input-field">
@@ -43,11 +54,12 @@ class HeaderElement(PageElement):
                             <div class="input-group">
                                 <textarea name="message" id="contact-message" placeholder="Message" class="form-control"></textarea>
                             </div>
-                            <div class="input-group">
-                                <a onclick="send_mail()" class="pull-right">Envoyer !</a>
+                            <div class="btn btn-primary col send-btn">
+                                <center><a onclick="send_mail()" class="pull-right">Envoyer !</a></center>
                             </div>
                         </form>
                     </div>
+                    
                 </div>
 
 

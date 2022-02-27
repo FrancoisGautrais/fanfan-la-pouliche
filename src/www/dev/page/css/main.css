@@ -771,3 +771,25 @@ label.error {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.send-btn {
+    position: absolute;
+    right: 15px;
+    margin-top: 10px;
+}
+
+#mail-error {
+    color: #fff;
+    background-color: #f00;
+}
+
+#mail-ok {
+    color: #fff;
+    background-color: #0f0;
+}
+
+.notif {
+    display: none;
+    margin-bottom: 10px;
+    padding: 7px;
+}
