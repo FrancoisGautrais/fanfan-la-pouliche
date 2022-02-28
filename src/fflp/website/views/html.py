@@ -37,3 +37,12 @@ def serve_main(request : HttpRequest):
     Stat.from_request(request)
     return HttpResponse(pb.generate())
 
+
+@route_handler(allowed=("GET",), logged=False)
+def serve_mentions(request : HttpRequest):
+    pb = PageBuilder.from_url("/mentions")
+    if request.session.session_key is None:
+        request.session.save()
+    Stat.from_request(request)
+    return HttpResponse(pb.generate())
+

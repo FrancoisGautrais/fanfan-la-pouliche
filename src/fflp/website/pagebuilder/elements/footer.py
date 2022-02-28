@@ -20,8 +20,8 @@ class HeaderElement(PageElement):
                        <div class="footer-single">
                            <h6>Informations</h6>
                            <ul>
-                               <li><a href="#">Mention légales</a></li>
-                               <li><a href="#">Données personelles</a></li>
+                               <li><a href="/mentions">Mention légales</a></li>
+                               <li><a href="/mentions#gestiondesdonneespersonnelles">Données personelles</a></li>
                            </ul>
                        </div>
                    </div>

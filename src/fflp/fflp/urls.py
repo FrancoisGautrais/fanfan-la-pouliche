@@ -25,6 +25,7 @@ urlpatterns = [
     path("tag/", include(tags.urls)),
     path("group/", include(groups.urls)),
     path("", html.serve_main),
+    path("mentions", html.serve_mentions),
     path("login", html.serve_login),
     path("admin", html.serve_admin),
     path("page", html.serve_admin),

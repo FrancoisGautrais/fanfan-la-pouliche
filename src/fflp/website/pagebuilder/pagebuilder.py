@@ -207,13 +207,43 @@ CONTENT={
 
 }
 
+CONTENT_MENTIONS={
+    "title" : "Fanfan la Pouliche - mentions légales",
+    "headers" :[],
+    "sections" :[
+        {
+            "type" : "Header"
+        },
+        {
+            "type" : "Text",
+            "label" : "Mentions légales",
+            "texte": "Nous sommes nous..."
+
+        },
+        {
+            "type" : "Text",
+            "label" : "Gestion des données personnelles",
+            "texte": "Nous sommes nous..."
+
+        },
+        {
+            "type" : "Footer",
+            "texte": 'Le site <a href="#">Fanfan la Pouliche</a> est développé, édité et hébergé (en Bretagne) par nos soins est es basé sur le template'
+                     ' <a href="https://gridgum.com/themes/photography-bootstrap-responsive-theme/">Photography - Bootstrap responsive theme</a> disponible sur '
+                     '<a href="https://gridgum.com">gridgum.com</a>'
+        }
+    ],
+    "footers" :[],
+
+}
+
 
 
 class PageBuilder:
     def __init__(self, page):
         self.page = page
         #self.content = PageInfo(self.page.content)
-        self.content = PageInfo(json.dumps(CONTENT))
+        self.content = PageInfo(json.dumps(CONTENT if page=="/" else CONTENT_MENTIONS))
 
     @staticmethod
     def from_url(url):

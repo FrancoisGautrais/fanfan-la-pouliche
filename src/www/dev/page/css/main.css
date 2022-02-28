@@ -779,13 +779,13 @@ label.error {
 }
 
 #mail-error {
-    color: #fff;
-    background-color: #f00;
+    border: solid 2px #bf360c;
+    border-radius: 7px;
 }
 
 #mail-ok {
-    color: #fff;
-    background-color: #0f0;
+    border: solid 2px #54bb1a;
+    border-radius: 7px;
 }
 
 .notif {

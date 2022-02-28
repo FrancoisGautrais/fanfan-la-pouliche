@@ -109,6 +109,18 @@ class Viewer {
         $(".viewer-footer").on("click", do_nothing);
         $(".viewer-title").html(img_data.name)
         root.show()
+        this.set_keys()
+    }
+
+    set_keys(){
+        var self=this;
+        event_catcher.enable(KEY_LEFT, function(){self.show_prev();} )
+        event_catcher.enable(KEY_RIGHT, function(){self.show_next();} )
+    }
+
+    unset_keys(){
+        event_catcher.disable(KEY_LEFT)
+        event_catcher.disable(KEY_RIGHT)
     }
 
     next(){
@@ -122,15 +134,22 @@ class Viewer {
     }
 
     show_prev(){
-        this.show(this.prev())
+        var prev = this.prev();
+        if(!prev) return
+        this.unset_keys()
+        this.show(prev)
     }
 
     show_next(){
-        this.show(this.next())
+        var next = this.next();
+        if(!next) return
+        this.unset_keys()
+        this.show(next)
     }
 
     hide(){
         $(".viewer").hide()
+        this.unset_keys()
     }
 
     init(){

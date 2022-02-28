@@ -184,3 +184,34 @@ function show_image(id){
 	});
 }
 
+const KEY_LEFT=37;
+const KEY_RIGHT=39;
+class EventCatcher {
+    constructor(){
+        var self = this;
+        this.enabled=false;
+        this.keys={}
+        document.addEventListener('keydown', function(e){self._on_key_press(e)});
+    }
+
+    _on_key_press(e){
+        var key = e.keyCode;
+        if(key in this.keys){
+            this.keys[key]();
+        }
+
+    }
+
+    enable(key, fct){
+        this.enabled=true;
+        this.keys[key]=fct
+
+    }
+
+    disable(key){
+        this.enabled=false;
+        delete this.keys[key]
+    }
+}
+
+const event_catcher = new EventCatcher()
