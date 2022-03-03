@@ -19,7 +19,7 @@ def serve_login(request : HttpRequest):
         user = authenticate(request, username=params["username"], password=params["password"])
         if user is not None:
             login(request, user)
-            return responses.redirect( request.GET["redirect"] if "redirect" in request.GET else "/")
+            return responses.redirect( request.GET["redirect"] if "redirect" in request.GET else "/page")
         return responses.json_unauthorized()
 
 @route_handler(allowed=("GET"))

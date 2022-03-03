@@ -13,10 +13,13 @@ function SimpleImage(onsend){
     return (<shortcut.ModalForm {...attrs}/>)
 }
 
-function SimpleImageEdit(value, onsend){
+function SimpleImageEdit(value, onsend, is_tag){
     var attrs = {
         title: "Modifier une image",
         form: image.SimpleImageEditForm,
+        form_attr : {
+            is_tag: is_tag
+        },
         onsend: function(data){
             if(onsend) onsend(data);
             return true;
@@ -27,7 +30,7 @@ function SimpleImageEdit(value, onsend){
 }
 
 
-window.SimpleImageEditModal=function(props, onsend){ return modal.modal(SimpleImageEdit(props, onsend))}
+window.SimpleImageEditModal=function(props, onsend, is_tag){ return modal.modal(SimpleImageEdit(props, onsend, is_tag))}
 
 function MultipleImage(onsend){
     var attrs = {

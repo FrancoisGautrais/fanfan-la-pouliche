@@ -19,6 +19,7 @@ class SimpleImageForm extends form_utils.Form {
     }
 
     handle_send(fct){
+        if(this.props.is_tag) return fct(this.state)
         if(this.state.uuid){
             ImageApi.edit(this.state, this.onedit.bind(this,fct))
         }else{
@@ -37,16 +38,23 @@ class SimpleImageForm extends form_utils.Form {
 
         return (
             <form className="container">
-                <SimpleInput name="name" label="Nom" placeholder="Nom"
-                        onChange={this.onchange.bind(this, "name")} value={this.state.name} error={this.errors.name}/>
 
-                <SimpleInput name="description" label="Description" placeholder="Description"
-                        onChange={this.onchange.bind(this, "description")}  value={this.state.description} error={this.errors.description}/>
+                {(!this.props.is_tag)?
+                    <SimpleInput name="name" label="Nom" placeholder="Nom"
+                            onChange={this.onchange.bind(this, "name")} value={this.state.name} error={this.errors.name}/>
+                 :null}
+
+                {(!this.props.is_tag)?
+                    <SimpleInput name="description" label="Description" placeholder="Description"
+                            onChange={this.onchange.bind(this, "description")}  value={this.state.description} error={this.errors.description}/>
+                 :null}
+
+
 
                 <MultipleTagSelectInline name="tags"  onChange={this.onchange.bind(this, "tags")}
                                 value={tags}/>
 
-                {(this.props.value&&this.props.value.uuid)?null:
+                {(this.props.value&&this.props.value.uuid || this.props.is_tag)?null:
                     <SimpleFile name="file" label="Fichier" placeholder="Fichier" onChange={this.onchange.bind(this, "file")}
                          value={this.state.file}  error={this.errors.file} />}
                 {btn}
@@ -223,12 +231,25 @@ class MultipleImageForm extends React.Component {
     }
 }
 
+var listen_escape={};
+var listen_escape_index=0;
+$(document).keyup(function(e) {
+     if (e.key === "Escape") { // escape key maps to keycode `27`
+        for(var i in listen_escape){
+            listen_escape[i]();
+        }
+    }
+});
+
 class ImageItem extends React.Component {
     constructor(props){
         super(props);
+        this.listen_index = listen_escape_index;
+        listen_escape_index++;
         this.data = props.data;
         this.parent = props.parent;
-        this.state={value: props.value};
+        this.parent.register(this);
+        this.state={value: props.value, checked: false};
     }
 
     edit(data, fct){
@@ -253,47 +274,98 @@ class ImageItem extends React.Component {
     }
 
     onedit(evt){
-        var img_form=SimpleImageEditModal(this.state.value, this.edit.bind(this))
+        SimpleImageEditModal(this.state.value, this.edit.bind(this))
+    }
 
+
+    remove(){
+        var self = this;
+        this.parent.unregister(self);
+        ImageApi.remove(self.state.value.uuid, function(){
+            self.state.value.deleted=true;
+            self.props.parent.notify_remove(self.state.value);
+            if(self.props.onremove){
+                self.props.onremove(self);
+            }
+        });
     }
 
     onremove(evt){
         var self = this;
         modal.confirm("Supprimer ?", "Voulez-vous vraiment supprimer l'image '"+this.state.value.name
             +"' ("+this.state.value.uuid+") définitivement ?", function(x){
-                ImageApi.remove(self.state.value.uuid, function(){
-                    self.state.value.deleted=true;
-                    self.props.parent.notify_remove(self.state.value);
-                    if(self.props.onremove){
-                        self.props.onremove(self);
-                    }
-                });
+                self.remove()
                 return true;
             });
+        this.onhide()
     }
 
     ondownload(){
         location.href="/image/"+this.state.value.uuid+"/original"
+        this.onhide()
     }
 
+    onshow(e){
+        this.dropdown = $(e.target).parent().find(".custom-dropdown");
+        this.dropdown.show()
+        this.background=$("<div class=\"dropdown-background\"></div>")
+        this.background.on("click", this.onhide.bind(this));
+        $("body").append(this.background)
+        listen_escape[this.listen_index]=this.onhide.bind(this);
+    }
+
+    onhide(){
+        this.dropdown.hide()
+        $(".dropdown-background").remove()
+        delete listen_escape[this.listen_index];
+    }
+
+    onselect(){
+        this.setState({checked: true});
+        this.parent.onselected(this);
+    }
+
+    onunselect(){
+        this.setState({checked: false});
+        this.parent.onunselected(this);
+    }
+
+
     render(){
+        var check;
+        if(this.state.checked){
+            check=(<span
+                    className="material-icons image-item-action image-item-action-select hide"
+                    onClick={this.onunselect.bind(this)}>
+                    check_box
+                </span>);
+        }
+        else{
+            check=(<span
+                    className="material-icons image-item-action image-item-action-select hide"
+                    onClick={this.onselect.bind(this)}>
+                    check_box_outline_blank
+                </span>);
+        }
+
         return (
             <div
-                className="image-item">
+                className={"image-item "+(this.state.checked?'image-item-selected':'')}>
                 <img src={ "/image/"+this.state.value.uuid+"/xs"}
                     onClick={this.onclick.bind(this)}/>
+                {check}
                 <span
-                    className="material-icons image-item-action image-item-action-delete hide"
-                    onClick={this.onremove.bind(this)}>
+                    className="material-icons image-item-action image-item-action-options hide"
+                    onClick={this.onshow.bind(this)}>
                         more_horiz
-                    </span>
-                <span className="material-icons image-item-action image-item-action-edit hide"
-                    onClick={this.onedit.bind(this)}>
-                    edit
                 </span>
-                <span className="material-icons image-item-action image-item-action-download hide"
-                    onClick={this.ondownload.bind(this)}>
-                    download
+                <div className="custom-dropdown" aria-labelledby="">
+                    <a className="dropdown-item" onClick={this.onremove.bind(this)}>Supprimer</a>
+                    <a className="dropdown-item" onClick={this.ondownload.bind(this)}>Télécharger</a>
+                </div>
+                <span className="material-icons image-item-action image-item-action-edit hide"
+                            onClick={this.onedit.bind(this)}>
+                    edit
                 </span>
             </div>
         )
@@ -301,10 +373,10 @@ class ImageItem extends React.Component {
 
 }
 
-
 class ImageList extends React.Component {
     constructor(props){
         super(props);
+        window.ImageListInstance=this;
         var self = this;
         this.state={
             images: props.images,
@@ -315,7 +387,35 @@ class ImageList extends React.Component {
                 self.setState({images: data});
             });
         }
+        this.items=[];
 
+    }
+
+    select_all(){
+        for(var i=0; i<this.items.length; i++)
+            this.items[i].onselect()
+    }
+
+    unselect_all(){
+        for(var i=0; i<this.items.length; i++)
+            this.items[i].setState({checked: false})
+        this.setState({selection: []})
+    }
+
+    onselected(x){
+        if(this.state.selection.indexOf(x)<0)
+            this.state.selection.push(x)
+        this.setState({})
+    }
+
+    onunselected(x){
+        for(var i=0; i<this.state.selection.length; i++){
+            if(this.state.selection[i]==x){
+                this.state.selection.pop(i);
+                i--;
+            }
+        }
+        this.setState({})
     }
 
     notify_remove(uuid){
@@ -345,16 +445,120 @@ class ImageList extends React.Component {
         modal.modal(MultipleImage(this.on_images_add.bind(this)))
     }
 
+    register(x){
+        for(var i  in this.items){
+            if(this.items[i]==x) return
+        }
+        this.items.push(x);
+    }
+
+    unregister(x){
+        this.onunselected(x)
+        for(var i=0; i<this.items.length; i++){
+            if(this.items[i]==x){
+                this.items.pop(i);
+                return
+            }
+        }
+    }
+
+    remove_all(){
+        var self = this;
+        modal.confirm("Supprimer ?", "Voulez-vous vraiment supprimer toutes ces images?", function(x){
+                for(var i=self.state.selection.length-1; i>=0; i--){
+                    self.state.selection[i].remove();
+
+                }
+                return true;
+            });
+    }
+
+    add_tag(){
+        var value = {
+            uuid: "ok"
+        }
+        var img_form=SimpleImageEditModal(value, this.on_add_tag.bind(this), true)
+    }
+
+    remove_tag(){
+        var value = {
+            uuid: "ok"
+        }
+        var img_form=SimpleImageEditModal(value, this.on_remove_tag.bind(this), true)
+    }
+
+    on_remove_tag(list){
+        list = list.tags;
+        for(var i in this.state.selection){
+            var x=this.state.selection[i];
+            x.setState({})
+            var item;
+            for(var i in this.state.images){
+                if(this.state.images[i].uuid == x.state.value.uuid){
+                    item=this.state.images[i];
+                    break;
+                }
+            }
+
+            print('ImageApi.add_tags(',x.state.value.uuid, list, ');')
+            ImageApi.remove_tags(x.state.value.uuid, list, function(data){
+                x.state.value.tags=data;
+                x.setState({})
+                item.tags=data;
+            });
+        }
+    }
+
+    on_add_tag(list){
+        list = list.tags;
+        for(var i in this.state.selection){
+            var x=this.state.selection[i];
+            x.setState({})
+            var item;
+            for(var i in this.state.images){
+                if(this.state.images[i].uuid == x.state.value.uuid){
+                    item=this.state.images[i];
+                    break;
+                }
+            }
+
+            print('ImageApi.add_tags(',x.state.value.uuid, list, ');')
+            ImageApi.add_tags(x.state.value.uuid, list, function(data){
+                x.state.value.tags=data;
+                x.setState({})
+                item.tags=data;
+            });
+        }
+    }
+
+
     render(){
+
         var imgs = []
         for(var i in this.state.images){
             if(!this.state.images[i].deleted)imgs.push(<ImageItem value={this.state.images[i]} key={"image-item."+i} parent={this}/>)
         }
+        var actions=[];
+        if(this.state.selection.length){
+            actions.push(<a className="btn btn-image-list-selection-red" key="1" onClick={this.remove_all.bind(this)}>Supprimer</a>)
+            actions.push(<a className="btn btn-image-list-selection" key="2" onClick={this.add_tag.bind(this)}>Ajouter des tags</a>)
+            actions.push(<a className="btn btn-image-list-selection-red" key="3" onClick={this.remove_tag.bind(this)}>Enlever des tags</a>)
+        }
 
         return (
             <div className="image-list-root">
-                <a className="btn" onClick={this.add_image.bind(this)}>Ajouter une image</a>
-                <a className="btn" onClick={this.add_images.bind(this)}>Ajouter des images</a>
+                <div className="image-list-action-line">
+                    <a className="btn btn-image-list" onClick={this.add_image.bind(this)}>Ajouter une image</a>
+                    <a className="btn btn-image-list" onClick={this.add_images.bind(this)}>Ajouter des images</a>
+                </div>
+
+                <div className="image-list-action-line">
+                    <a className="btn btn-image-list-selection" onClick={this.select_all.bind(this)}>Tout selectionner</a>
+                    <a className="btn btn-image-list-selection" onClick={this.unselect_all.bind(this)}>Tout déselectionner</a>
+                </div>
+                <div className="image-list-action-line">
+                    {actions}
+                </div>
                 <div className="image-list">
                     {imgs}
                 </div>

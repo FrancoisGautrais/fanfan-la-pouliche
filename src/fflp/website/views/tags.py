@@ -78,7 +78,6 @@ def remove(request : HttpRequest, uuid : str):
     return json_ok("Le tag '%s' (%s) a été supprimé " % (name, id))
 
 
-
 urls = [
     path('', list),
     path('add', create),
@@ -87,5 +86,5 @@ urls = [
     path('<str:uuid>/images', images),
     path('<str:uuid>/edit', edit),
     path('<str:uuid>/', edit),
-    path('<str:uuid>/remove', remove)
+    path('<str:uuid>/remove', remove),
 ]

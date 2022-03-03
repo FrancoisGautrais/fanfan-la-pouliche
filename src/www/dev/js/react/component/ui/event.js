@@ -16,6 +16,7 @@ class EventEntry {
 class EventEntryClick extends EventEntry{
     handle_click(e){
         var elem = (typeof this.opts.element === 'function')?this.opts.element():this.opts.element
+        if(elem==null){return}
         var val = elem.contains(e.target)
         return (this.opts.outside!=val)?this.callback():null;
     }

@@ -22,6 +22,7 @@ from .utils import get_id
 
 
 def remove_if_empty(path : Path):
+    if not path.is_dir(): return
     if not len(os.listdir(path)):
         os.rmdir(path)
         remove_if_empty(path.parent)
@@ -57,7 +58,6 @@ def get_exif(img : PImage):
     if not exifDataRaw: return {}
     for tag, value in exifDataRaw.items():
         decodedTag = ExifTags.TAGS.get(tag, tag)
-        print("decodedTag %s"%decodedTag)
         exifData[decodedTag] = jsonify(value)
     return exifData
 
@@ -92,6 +92,22 @@ class Image(models.Model):
     sizes = models.TextField(default=SIZES_STR)
     creation_date = models.DateTimeField()
 
+    def get_tags(self):
+        return [ [x.uuid, x.name] for x in self.tags.all() ]
+
+    def add_tags(self, tags):
+        for k in tags:
+            if isinstance(k, (list, tuple)): k = k[0]
+            tag = Tag.objects.get(uuid=k)
+            print(f"add tag {tag.name} {tag.uuid}")
+            self.tags.add(tag)
+
+    def remove_tags(self, tags):
+        for k in tags:
+            if isinstance(k, (list, tuple)): k = k[0]
+            tag = Tag.objects.get(uuid=k)
+            print(f"remove tag {tag.name} {tag.uuid}")
+            self.tags.remove(tag)
 
     def set_tags(self, tags):
         self.tags.clear()
@@ -151,12 +167,13 @@ class Image(models.Model):
                ("%02d" % self.month) / ("%02d" % self.day) / (self.uuid+".jpg")
 
     def remove(self, remove_files=True):
-        self.delete()
+        if remove_files:
+            for size in self.sizes.split(","):
+                path = self.get_image_path(size)
+                path.unlink(missing_ok=True)
+                remove_if_empty(path.parent)
 
-        for size in self.sizes.split(","):
-            path = self.get_image_path(size)
-            path.unlink()
-            remove_if_empty(path.parent)
+        self.delete()
 
 
     def _initialize(self, form : UploaderForm):

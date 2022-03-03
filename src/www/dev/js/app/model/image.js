@@ -25,6 +25,14 @@ class _Images extends Api{
         return this.json_get("/image", null, handlers)
     }
 
+    add_tags(uuid, tags, handlers){
+        return this.json_post("/image/"+uuid+"/tags", tags, handlers)
+    }
+
+    remove_tags(uuid, tags, handlers){
+        return this.json_delete("/image/"+uuid+"/tags", tags, handlers)
+    }
+
 
 }
 

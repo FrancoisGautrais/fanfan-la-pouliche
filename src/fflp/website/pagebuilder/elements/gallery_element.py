@@ -59,7 +59,7 @@ class HeaderElement(PageElement):
         except Tag.DoesNotExist:
             tags = None
         all_tags = {}
-        images = Image.objects.filter(tags__in=tags)[:8] if tags else []
+        images = Image.objects.filter(tags__in=tags) if tags else []
         images_data = json.dumps({ img.uuid : img.as_dict() for img in images})
         for img in images:
             for tag in img.tags.all():

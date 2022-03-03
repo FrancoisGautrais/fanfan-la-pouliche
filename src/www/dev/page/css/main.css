@@ -359,8 +359,9 @@ top: -8px;
 
 .work-item > img {
   display: block;
-  height: auto;
-  max-width: 100%;
+  width: auto;
+  margin: 0px;
+  width: 100%;
 }
 
 .overlay {

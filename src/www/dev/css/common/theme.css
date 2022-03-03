@@ -1,8 +1,27 @@
 
+/*
+ dark-blue: #073B4C
+ light-blue: #118AB2
+ green: #06D6A0
+ yellow: #FFD166
+ red: #EF476F
+*/
+
 :root {
-    --color-yes: #0f0;
-    --color-no: #f00;
-    --color-cancel: #00f;
+     --dark-blue: #073B4C;
+     --light-blue: #118AB2;
+     --green: #06D6A0;
+     --yellow: #FFD166;
+     --red: #EF476F;
+     --black: #000000;
+     --white: #ffffff;
+}
+
+
+:root {
+    --color-yes: var(--green);
+    --color-no: var(--red);
+    --color-cancel: var(--dark-blue);
 }
 
 
@@ -29,4 +48,3 @@
 .bg-color-cancel {
     background-color: var(--color-cancel);
 }
-

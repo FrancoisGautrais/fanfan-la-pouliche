@@ -243,7 +243,7 @@ class PageBuilder:
     def __init__(self, page):
         self.page = page
         #self.content = PageInfo(self.page.content)
-        self.content = PageInfo(json.dumps(CONTENT if page=="/" else CONTENT_MENTIONS))
+        self.content = PageInfo(json.dumps(CONTENT if page.url=="/" else CONTENT_MENTIONS))
 
     @staticmethod
     def from_url(url):

@@ -8,7 +8,7 @@
 }
 
 .modal {
-    background-color: #fff;
+    background-color: var(--white);
     border: solid 2px;
     border-color: #aaa;
     display: block !important;

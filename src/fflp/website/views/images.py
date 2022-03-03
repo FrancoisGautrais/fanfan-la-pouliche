@@ -90,8 +90,33 @@ def remove(request : HttpRequest, uuid : str):
     except Image.DoesNotExist as err:
         return responses.image_not_found(uuid)
     id, name = img.uuid, img.name
-    img.delete()
+    img.remove()
     return json_ok("L'image '%s' (%s) a été supprimée" % (name, id))
+
+
+@route_handler(allowed=("GET","POST", "PUT", "DELETE"), logged=False)
+def tags(request : HttpRequest, uuid : str):
+    try:
+        img = Image.objects.get(uuid=uuid)
+        if request.method=="GET":
+            return json_ok(img.get_tags())
+        elif request.method in ("POST", "PUT"):
+            check_auth(request)
+            tags = request.POST or json.loads(request.body)
+            print(f"add tag {tags}")
+            img.add_tags(tags)
+            img.save()
+            return json_ok(tags)
+        else:
+            check_auth(request)
+            tags = request.POST or json.loads(request.body)
+            img.remove_tags(tags)
+            img.save()
+            return json_ok(tags)
+    except Image.DoesNotExist as err:
+        return responses.image_not_found(uuid)
+
+
 
 
 urls = [
@@ -99,7 +124,8 @@ urls = [
     path('add', create),
     path('<str:uuid>/info', info),
     path('<str:uuid>/edit', edit),
+    path('<str:uuid>/tags', tags),
     path('<str:uuid>/remove', remove),
     path('<str:uuid>', get),
-    path('<str:uuid>/<str:size>', get)
+    path('<str:uuid>/<str:size>', get),
 ]

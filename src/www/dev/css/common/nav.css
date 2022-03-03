@@ -1,6 +1,6 @@
 
 .nav-bar {
-    background-color: red;
+    background-color: var(--red);
 }
 
 .nav-bar-root {
