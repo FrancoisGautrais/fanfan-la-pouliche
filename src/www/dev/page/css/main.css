@@ -794,3 +794,11 @@ label.error {
     margin-bottom: 10px;
     padding: 7px;
 }
+
+.link {
+    color: black;
+}
+
+.texte {
+    line-height: 1.5 !important;
+}

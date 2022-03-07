@@ -66,15 +66,15 @@ class Image(models.Model):
     STATE_UNINITIALIZED : int = 0
     STATE_INITIALIZED : int = 1
 
-
+    QUALITY = 95
     SIZE_S : str = "xs"
     SIZE_M : str = "m"
     SIZE_L : str = "l"
     SIZE_ORIGINAL : str = "original"
     SIZES: dict[str, int] = {
         SIZE_S : 128,
-        SIZE_M : 512,
-        SIZE_L : 1080,
+        SIZE_M : 768,
+        SIZE_L : 1920,
         SIZE_ORIGINAL : -1
     }
     SIZES_STR : list[str] = ",".join(SIZES.keys())
@@ -203,7 +203,7 @@ class Image(models.Model):
                 elif height>width:
                     w*=ratio
 
-                img.resize((int(w),int(h))).save(path)
+                img.resize((int(w),int(h))).save(path, quality=self.QUALITY)
         exif = get_exif(img)
         self.meta = json.dumps(exif)
 

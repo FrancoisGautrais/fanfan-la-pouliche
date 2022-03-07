@@ -37,7 +37,7 @@ class TitleElement(PageElement):
         return f"""
             <div class="item {"active" if not i else ""}" style="background-image: url(/image/{x.uuid}/l);">
                 <div class="carousel-caption">
-                    <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated"><span>{x.name}</span>!</h2>
+                    <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated"><span>{x.name}</span></h2>
                     <h3 data-wow-duration="1000ms" class="wow slideInLeft animated">{x.description}</h3>
                 </div>
             </div>

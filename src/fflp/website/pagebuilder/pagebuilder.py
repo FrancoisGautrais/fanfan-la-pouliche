@@ -174,7 +174,8 @@ CONTENT={
         {
             "type" : "Text",
             "label" : "Qui sommes-nous ?",
-            "texte": "Nous sommes nous..."
+            "titre" : "Qui sommes-nous ?",
+            "texte": "Nous sommes un petit collectif de photographes amateurs souhaitant diffuser nos clichés de manière un peu plus originale que les Réseaux sociaux habituels. Nous pratiquons la photo occasionnellement mais nous souhaitons quand même proposer une petite vitrine sur Internet. N’hésitez pas à nous faire part de vos réactions via la rubrique contact."
 
         },
         {
@@ -187,13 +188,16 @@ CONTENT={
         {
             "type" : "Text",
             "label" : "Utilisation des clichés",
-            "texte": "Nous sommes nous..."
+            "titre" : "Utilisation des clichés",
+            "texte": """Sauf mention contraire, tous les clichés diffusés sur ce site internet sont sous licence Creative Commons <a class="link" href="https://creativecommons.org/licenses/by-nc-sa/3.0/fr/">CC-BY-NC-SA</a>. C’est à dire que vous pouvez utiliser ces images, les modifier et les partager dans les mêmes conditions hors utilisation commerciale.
+<br>Vous souhaitez utiliser un de nos clichés pour une utilisation commerciale ? Merci de nous contacter via le formulaire ci-dessous.<br>
+Si vous apparaissez sur une des photos ? C’est avec plaisir que nous pourrons vous l’imprimer et vous l’envoyer ! Vous souhaitez tout de même faire retirer la photo du site, aucun problème, contactez-nous via le formulaire juste en bas !"""
 
         },
         {
             "type" : "Contact",
             "label" : "Contact",
-            "texte": "..."
+            "texte": "Si vous souhaitez nous contacter merci de remplir le formulaire ci-dessous, nous tacherons d’y répondre le plus vite possible !"
 
         },
         {
