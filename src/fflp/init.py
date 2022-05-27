@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 import os
 
 os.environ["DJANGO_SETTINGS_MODULE"]="fflp.settings"

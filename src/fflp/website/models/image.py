@@ -71,7 +71,7 @@ class Image(models.Model):
     SIZE_M : str = "m"
     SIZE_L : str = "l"
     SIZE_ORIGINAL : str = "original"
-    SIZES: dict[str, int] = {
+    SIZES: dict = {
         SIZE_S : 128,
         SIZE_M : 768,
         SIZE_L : 1920,
