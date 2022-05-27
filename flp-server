@@ -5,6 +5,10 @@ import os, sys
 import time
 from pathlib import Path
 
+current_dir = Path(__file__).parent
+
+sys.path.append(str(current_dir / "src" / "fflp"))
+
 import pkg_resources  # part of setuptools
 
 DEFAULT_PORT = "localhost:8000"
