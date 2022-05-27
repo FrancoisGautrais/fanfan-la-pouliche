@@ -3,12 +3,12 @@
 VENV=virtualenv
 
 rm -rf $VENV 2> /dev/null
-python -m venv $VENV
+python3 -m venv $VENV
 . $VENV/bin/activate
 pip install -U pip
 pip install .
 
-python install/postinstall.py
+python3 install/postinstall.py
 cd src/fflp
 
-python init.py
+python3 init.py
