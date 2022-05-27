@@ -77,7 +77,7 @@ class Image(models.Model):
         SIZE_L : 1920,
         SIZE_ORIGINAL : -1
     }
-    SIZES_STR : list[str] = ",".join(SIZES.keys())
+    SIZES_STR : list = ",".join(SIZES.keys())
 
     uuid = models.CharField(max_length=64, primary_key=True)
     name = models.TextField()
