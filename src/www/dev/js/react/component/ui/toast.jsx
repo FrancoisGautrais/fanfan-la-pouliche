@@ -73,11 +73,11 @@ class Toast extends React.Component {
     }
 
 }
-
+/*
 Toast.info("Une premire information")
 Toast.warning("Une deuxieme information", "warning")
 Toast.warning("Une deuxieme information", "warning")
 Toast.warning("Une deuxieme information", "warning")
-Toast.error("Une troisieme information", "error")
+Toast.error("Une troisieme information", "error")*/
 
 module.exports = Toast;
