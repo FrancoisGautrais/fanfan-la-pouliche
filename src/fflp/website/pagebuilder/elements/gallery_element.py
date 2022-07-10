@@ -71,7 +71,7 @@ class HeaderElement(PageElement):
         return {
             "label": self.label,
             "content" : "\n".join([ self._figure(x) for x in images]),
-            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items() if k not in ("accueil")]),
+            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items() if k not in ("accueil", )]),
             "introduction" : self.introduction,
             "titre" : self.titre,
             "images" : images_data,
