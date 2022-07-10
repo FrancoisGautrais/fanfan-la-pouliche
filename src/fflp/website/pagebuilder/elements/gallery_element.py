@@ -67,11 +67,10 @@ class HeaderElement(PageElement):
                 if id not in all_tags and tag.name!="public":
                     all_tags[id]=tag.name
 
-        print("images=", images)
         return {
             "label": self.label,
             "content" : "\n".join([ self._figure(x) for x in images]),
-            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items() if k not in ("accueil", )]),
+            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items() if v not in ("accueil", )]),
             "introduction" : self.introduction,
             "titre" : self.titre,
             "images" : images_data,
