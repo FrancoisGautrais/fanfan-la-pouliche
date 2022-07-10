@@ -7,3 +7,5 @@ VENV = $WORK_DIR/virtualenv
 . $VENV/bin/activate
 
 python3.7 flp-server $*
+
+
