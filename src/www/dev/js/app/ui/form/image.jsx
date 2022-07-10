@@ -7,6 +7,7 @@ var { MultipleTagSelectInline } = module.load("js.app.ui.widget.tag")
 var form_utils = module.load(".utils")
 var modal = module.load("js.react.component.ui.modal")
 var toast = module.load("js.react.component.ui.toast")
+var {TagManage} = module.load("js.app.ui.modal.tag")
 
 class SimpleImageForm extends form_utils.Form {
 
@@ -531,6 +532,10 @@ class ImageList extends React.Component {
         }
     }
 
+    add_category(){
+        modal.modal(TagManage())
+    }
+
 
     render(){
 
@@ -550,6 +555,7 @@ class ImageList extends React.Component {
                 <div className="image-list-action-line">
                     <a className="btn btn-image-list" onClick={this.add_image.bind(this)}>Ajouter une image</a>
                     <a className="btn btn-image-list" onClick={this.add_images.bind(this)}>Ajouter des images</a>
+                    <a className="btn btn-image-list" onClick={this.add_category.bind(this)}>Ajouter des catégories</a>
                 </div>
 
                 <div className="image-list-action-line">
