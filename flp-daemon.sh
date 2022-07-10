@@ -1,5 +1,5 @@
 #!/bin/bash
-WORK_DIR = $(dirname "${BASH_SOURCE[0]}")
+WORK_DIR=$(dirname "${BASH_SOURCE[0]}")
 cd $WORK_DIR
 
 VENV = $WORK_DIR/virtualenv
