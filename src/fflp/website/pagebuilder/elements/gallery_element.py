@@ -21,7 +21,7 @@ class HeaderElement(PageElement):
 					
 					<div class="work-filter wow fadeInRight animated" data-wow-duration="500ms">
 						<ul class="text-center">
-							<li><a href="javascript:;" data-filter="all" class="active filter">All</a></li>
+							<li><a href="javascript:;" data-filter="all" class="active filter">Toutes</a></li>
 							%(tags_header)s
 						</ul>
 					</div>
@@ -71,7 +71,7 @@ class HeaderElement(PageElement):
         return {
             "label": self.label,
             "content" : "\n".join([ self._figure(x) for x in images]),
-            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items()]),
+            "tags_header" : "\n".join([ self._tag_header(k,v) for k, v in all_tags.items() if k not in ("Accueil")]),
             "introduction" : self.introduction,
             "titre" : self.titre,
             "images" : images_data,
