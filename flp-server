@@ -60,7 +60,7 @@ def is_alive():
 
 def set_pid():
     if not is_alive():
-        pidfile.write_text(str(os.getgid()))
+        pidfile.write_text(str(os.getpid()))
     else:
         print(f"Another instance is running with pid {pid}")
         exit(-1)
